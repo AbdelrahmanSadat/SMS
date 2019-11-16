@@ -1,0 +1,4 @@
+// TODO: modify functions to accept multiple search parameters
+// TODO: add some form of validation on function inputs
+// TODO: update some
+// TODO: database and query optimization
