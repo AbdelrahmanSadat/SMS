@@ -1,3 +1,5 @@
+// ! had an issue with node-sass version because of node version compatibility
+// ! with it. upgraded to latest version that supports node 12 ?
 /* eslint global-require: off */
 
 /**
@@ -12,8 +14,19 @@
  */
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import path from 'path';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import sequelizeSetup from './utils/database/db'
+
+// TODO: remove
+// console.log("-----------------------------------------------------")
+// console.log(app.getAppPath())
+// console.log(app.getPath("home"))
+// console.log(app.getPath("appData"))
+// console.log(app.getPath("userData"))
+// console.log(app.getPath('exe'));
+// console.log('-----------------------------------------------------');
 
 export default class AppUpdater {
   constructor() {
@@ -41,7 +54,7 @@ const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
-
+  
   return Promise.all(
     extensions.map(name => installer.default(installer[name], forceDownload))
   ).catch(console.log);
@@ -63,9 +76,15 @@ app.on('ready', async () => {
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.DEBUG_PROD === 'true'
-  ) {
-    await installExtensions();
-  }
+    ) {
+      await installExtensions();
+    }
+    
+    // TODO: change the path for production?
+    // * setup the database connection
+    // let sequelize = sequelizeSetup(path.resolve(app.getPath('desktop'), 'devDb.db'));
+    // creates db file in the root directory of the app
+    let sequelize = sequelizeSetup('./dbtest.db');
 
   mainWindow = new BrowserWindow({
     show: false,
