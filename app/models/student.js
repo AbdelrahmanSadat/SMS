@@ -9,7 +9,10 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       allowNull: false
     },
-    // TODO: next ID
+    // TODO: barID ?
+
+    // TODO: next ID (function to keep track of the latest id)
+    // TODO: for UI/UX purposes
     name: DataTypes.TEXT,
     Email: {
       type: DataTypes.TEXT,
@@ -33,32 +36,43 @@ module.exports = function(sequelize) {
       type: DataTypes.ENUM,
       values: ["1st", "2nd", "3rd", "other"]
     },
-    // TODO: fees and payment re-implementation
-    // TODO: fees is an object with properties
-    // TODO: paymentGroup(ref) and due date (optional)
-    fees: DataTypes.REAL,
-    // TODO: payment due date
-    // TODO: status???
+    
+    
     status: {
       type: DataTypes.ENUM,
-      // TODO: notes on terminated and wanted status
-      // TODO: could be implemented in pre-save code
-      values: ["Active", "Terminated", "Wanted"]
+      // TODO?: notes on terminated and wanted status
+      // TODO?: could be implemented in pre-save code
+      values: ["Active", "Terminated", "Wanted", "other"]
     },
-    // TODO: attendanceCounter
-    // TODO: modification/validation/refactoring/re-implementaion
+    
+    // TODO?: modification/validation/refactoring/re-implementaion
     attendanceCounter: DataTypes.INTEGER,
-    // TODO: assignedSection
+    
+    // TODO: list of warnings(in a table) or separated Text 
+    // implemnted as separable text for now
+    warnings: DataTypes.TEXT
+    
+    // * studentPayments?
+    // [{paymentGroup, due date}]
+    // create a foreign key (associations?) that points
+    // to a newly created table (studentPayment?) that
+    // contatins the studentID? , payment group, and a due date
+    
+    // * exam
+    // same as payment
+
+    // * reservation date:
+    // reservation date can be known by searching the
+    // payments table with the student id and the type "reservation"
+    
+
+    // TODO?: attendanceDates ?
+    // TODO: average attendance rate ?
+    
+    // * assignedSection:
     // Using associations already creates a reference
     // to the section the student is assigned to
-    // TODO: warnings (text enums)
-    // TODO: list of warnings(in a table) or separated Text 
-    warnings: DataTypes.TEXT
-    // TODO: exam
-    // TODO: reservationDate (references model instead)
-    // TODO: allPaymentDates
-    // TODO: attendanceDates
   });
-
+  
   return Student;
 };
