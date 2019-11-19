@@ -35,6 +35,7 @@ module.exports = function(sequelize) {
     // where the type of payment group is "monthly"
     // or something like that
 
+
     // Using associations already creates a reference
     // to the section the student is assigned to (one-to-many)
     // in the student's table (one-way referencting)

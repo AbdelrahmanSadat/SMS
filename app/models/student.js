@@ -69,6 +69,8 @@ module.exports = function(sequelize) {
 
     // TODO?: attendanceDates ?
     // TODO: average attendance rate ?
+    // * attendance:
+    // the attendance table has a ref to the student
     
     // * assignedSection:
     // Using associations already creates a reference
