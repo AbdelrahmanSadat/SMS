@@ -9,7 +9,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
-  const PaymentGroup = sequelize.define('user', {
+  const PaymentGroup = sequelize.define('paymentGroup', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,

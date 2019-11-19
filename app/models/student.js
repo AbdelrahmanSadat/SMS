@@ -13,6 +13,7 @@ module.exports = function(sequelize) {
 
     // TODO: next ID (function to keep track of the latest id)
     // TODO: for UI/UX purposes
+    
     name: DataTypes.TEXT,
     Email: {
       type: DataTypes.TEXT,

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
-  const Warning = sequelize.define('user', {
+  const Warning = sequelize.define('warning', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,

@@ -4,7 +4,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
-  const StudentPaymentGroup = sequelize.define('user', {
+  const StudentExam = sequelize.define('studentExam', {
     // ? ID is not needed in the join table
 
     // id: {
@@ -21,5 +21,5 @@ module.exports = function(sequelize) {
     score: DataTypes.DATE
   });
 
-  return StudentPaymentGroup;
+  return StudentExam;
 };

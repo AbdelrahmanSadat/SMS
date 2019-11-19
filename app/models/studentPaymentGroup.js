@@ -4,7 +4,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
-  const StudentPaymentGroup = sequelize.define('user', {
+  const StudentPaymentGroup = sequelize.define('studentPaymentGroup', {
     // ? ID is not needed in the join table
     // id: {
     //   type: DataTypes.INTEGER,
