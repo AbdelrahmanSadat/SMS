@@ -13,6 +13,7 @@
 
 const { Sequelize } = require('sequelize');
 
+let attendance = require('../../models/attendance');
 let exam = require('../../models/exam');
 let payment = require('../../models/payment');
 let paymentGroup = require('../../models/paymentGroup');
@@ -36,6 +37,8 @@ module.exports = function(path) {
     .authenticate()
     .then(() => {
       console.log('Connection has been established successfully.');
+      // TODO: remove the variable assignments
+      let Attendance = attendance(sequelize);
       let Exam = exam(sequelize);
       let Payment = payment(sequelize);
       let PaymentGroup = paymentGroup(sequelize);
@@ -45,7 +48,7 @@ module.exports = function(path) {
       let StudentPaymentGroup = studentPaymentGroup(sequelize);
       let User = user(sequelize);
       let Warning = warning(sequelize);
-      
+
       sequelize
         // Setting force to "true" drops the database on changes
         .sync({ force: true })
