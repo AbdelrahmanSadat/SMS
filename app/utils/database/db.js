@@ -37,7 +37,7 @@ module.exports = function(path) {
     .authenticate()
     .then(() => {
       console.log('Connection has been established successfully.');
-      // TODO: remove the variable assignments
+      // TODO: remove unused variable assignments
       let Attendance = attendance(sequelize);
       let Exam = exam(sequelize);
       let Payment = payment(sequelize);
@@ -49,8 +49,39 @@ module.exports = function(path) {
       let User = user(sequelize);
       let Warning = warning(sequelize);
 
+      // * Creating Associations
+      // hasMany connects one source to many targets
+      // creates an foreign key of the source in the
+      // target's table
+      // will create the attribute SectionId in Student
+      Section.hasMany(Student);
+      // Creates student and section refs in attendance
+      Student.hasMany(Attendance);
+      Section.hasMany(Attendance);
+      // creates ref to paymentGroup, student and user in
+      // the payment model
+      PaymentGroup.hasMany(Payment);
+      Student.hasMany(Payment);
+      User.hasMany(Payment);
+      // creates section ref in paymentGroup
+      Section.hasMany(PaymentGroup);
+      // TODO: the student join tables and shit
+      Student.belongsToMany(PaymentGroup, {
+        through: StudentPaymentGroup
+      });
+      PaymentGroup.belongsToMany(Student, {
+        through: StudentPaymentGroup
+      });
+      Student.belongsToMany(Exam, {
+        through: StudentExam
+      });
+      Exam.belongsToMany(Student, {
+        through: StudentExam
+      });
+
       sequelize
         // Setting force to "true" drops the database on changes
+        // TODO: remove force
         .sync({ force: true })
         .then(() => {
           console.log('synced');
