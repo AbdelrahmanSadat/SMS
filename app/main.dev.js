@@ -17,7 +17,7 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import log from 'electron-log';
 import MenuBuilder from './menu';
-import sequelizeSetup from './utils/database/db'
+import sequelizeSetup from './utils/database/db';
 
 // TODO: remove
 // console.log("-----------------------------------------------------")
@@ -54,7 +54,7 @@ const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
-  
+
   return Promise.all(
     extensions.map(name => installer.default(installer[name], forceDownload))
   ).catch(console.log);
@@ -76,15 +76,16 @@ app.on('ready', async () => {
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.DEBUG_PROD === 'true'
-    ) {
-      await installExtensions();
-    }
-    
-    // TODO: change the path for production?
-    // * setup the database connection
-    // let sequelize = sequelizeSetup(path.resolve(app.getPath('desktop'), 'devDb.db'));
-    // creates db file in the root directory of the app
-    let sequelize = sequelizeSetup('./dbtest.db');
+  ) {
+    await installExtensions();
+  }
+
+  // TODO: change the path for production?
+  // TODO: set the db path in an env variable ?
+  // * setup the database connection
+  // let sequelize = sequelizeSetup(path.resolve(app.getPath('desktop'), 'devDb.db'));
+  // creates db file in the root directory of the app
+  let sequelize = sequelizeSetup('./dbtest.db');
 
   mainWindow = new BrowserWindow({
     show: false,
