@@ -18,6 +18,9 @@ module.exports = function(sequelize) {
     // TODO: maybe add the date and time the test
     // TODO: was taken by this student?
 
+    
+    passing: DataTypes.BOOLEAN,
+
     score: DataTypes.DATE
   });
 

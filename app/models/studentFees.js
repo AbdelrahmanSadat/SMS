@@ -1,10 +1,11 @@
 // * Join table for student and payment group
 // * also contains due date for each payment
+// * and the actual value to be paid by student
 
 const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
-  const StudentPaymentGroup = sequelize.define('studentPaymentGroup', {
+  const StudentFees = sequelize.define('studentFees', {
     // ? ID is not needed in the join table
     // id: {
     //   type: DataTypes.INTEGER,
@@ -14,8 +15,12 @@ module.exports = function(sequelize) {
     //   allowNull: false
     // },
 
-    dueDate: DataTypes.DATE
+    dueDate: DataTypes.DATE,
+    // the actual amount the student is required
+    // to pay, which may not always be the
+    // default value in the payment group
+    value: DataTypes.REAL
   });
 
-  return StudentPaymentGroup;
+  return StudentFees;
 };

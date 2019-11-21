@@ -15,12 +15,14 @@ const { Sequelize } = require('sequelize');
 
 let attendance = require('../../models/attendance');
 let exam = require('../../models/exam');
+let expenses = require('../../models/expense');
+let income = require('../../models/income');
 let payment = require('../../models/payment');
 let paymentGroup = require('../../models/paymentGroup');
 let section = require('../../models/section');
 let student = require('../../models/student');
 let studentExam = require('../../models/studentExam');
-let studentPaymentGroup = require('../../models/studentPaymentGroup');
+let studentFees = require('../../models/studentFees');
 let user = require('../../models/user');
 let warning = require('../../models/warning');
 
@@ -40,12 +42,14 @@ module.exports = function(path) {
       // TODO: remove unused variable assignments
       let Attendance = attendance(sequelize);
       let Exam = exam(sequelize);
+      let Expense = expenses(sequelize);
+      let Income = income(sequelize);
       let Payment = payment(sequelize);
       let PaymentGroup = paymentGroup(sequelize);
       let Section = section(sequelize);
       let Student = student(sequelize);
       let StudentExam = studentExam(sequelize);
-      let StudentPaymentGroup = studentPaymentGroup(sequelize);
+      let StudentFees = studentFees(sequelize);
       let User = user(sequelize);
       let Warning = warning(sequelize);
 
@@ -67,10 +71,10 @@ module.exports = function(path) {
       Section.hasMany(PaymentGroup);
       // TODO: the student join tables and shit
       Student.belongsToMany(PaymentGroup, {
-        through: StudentPaymentGroup
+        through: StudentFees
       });
       PaymentGroup.belongsToMany(Student, {
-        through: StudentPaymentGroup
+        through: StudentFees
       });
       Student.belongsToMany(Exam, {
         through: StudentExam

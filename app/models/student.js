@@ -53,11 +53,12 @@ module.exports = function(sequelize) {
     // implemnted as separable text for now
     warnings: DataTypes.TEXT
     
-    // * studentPayments?
-    // [{paymentGroup, due date}]
+    // * fees
+    // [{paymentGroup, due date, value}]
     // create a foreign key (associations?) that points
-    // to a newly created table (studentPayment?) that
-    // contatins the studentID? , payment group, and a due date
+    // to a newly created table (studentFees?) that
+    // contatins the studentID? , payment group id, 
+    // value to pay, and a due date
     
     // * exam
     // same as payment
