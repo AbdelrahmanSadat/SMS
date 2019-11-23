@@ -15,8 +15,8 @@ module.exports = function(sequelize) {
     //   allowNull: false
     // },
 
-    // TODO: maybe add the date and time the test
-    // TODO: was taken by this student?
+    // TODO?: maybe add the date and time the test
+    // TODO?: was taken by this student?
 
     
     passing: DataTypes.BOOLEAN,

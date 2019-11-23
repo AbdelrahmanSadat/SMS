@@ -13,9 +13,11 @@ module.exports = function(sequelize) {
       allowNull: false
     },
     date: DataTypes.DATE,
-    // TODO: add payment group ref using associations
-    // TODO: add student ref using associations
-    // TODO: add user ref using associations (person who recieved payment)
+    //* PaymentGroup Ref
+    // TODO: should be a ref to the student payment join
+    // TODO: table instead of PG. If it's used
+    //* Student ref
+    //* User ref
     
 
   });

@@ -12,7 +12,6 @@ module.exports = function(sequelize) {
     // TODO: barID ?
 
     // TODO: next ID (function to keep track of the latest id)
-    // TODO: for UI/UX purposes
     
     name: DataTypes.TEXT,
     Email: {
@@ -49,8 +48,6 @@ module.exports = function(sequelize) {
     // TODO?: modification/validation/refactoring/re-implementaion
     attendanceCounter: DataTypes.INTEGER,
     
-    // TODO: list of warnings(in a table) or separated Text 
-    // implemnted as separable text for now
     warnings: DataTypes.TEXT
     
     // * fees
@@ -68,8 +65,7 @@ module.exports = function(sequelize) {
     // payments table with the student id and the type "reservation"
     
 
-    // TODO?: attendanceDates ?
-    // TODO: average attendance rate ?
+    // TODO?: average attendance rate ?
     // * attendance:
     // the attendance table has a ref to the student
     

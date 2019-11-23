@@ -12,7 +12,7 @@ module.exports = function(sequelize) {
     date: DataTypes.DATE,
     minimum: DataTypes.REAL,
     maximum: DataTypes.REAL
-    // TODO: other data about the exam, like the file path or something
+    // TODO?: other data about the exam, like the file path or something
   });
 
   return Exam;
