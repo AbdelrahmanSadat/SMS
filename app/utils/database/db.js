@@ -17,7 +17,6 @@ let attendance = require('../../models/attendance');
 let exam = require('../../models/exam');
 let expenses = require('../../models/expense');
 let income = require('../../models/income');
-let payment = require('../../models/payment');
 let paymentGroup = require('../../models/paymentGroup');
 let section = require('../../models/section');
 let student = require('../../models/student');
@@ -44,7 +43,6 @@ module.exports = function(path) {
       let Exam = exam(sequelize);
       let Expense = expenses(sequelize);
       let Income = income(sequelize);
-      let Payment = payment(sequelize);
       let PaymentGroup = paymentGroup(sequelize);
       let Section = section(sequelize);
       let Student = student(sequelize);
@@ -62,11 +60,6 @@ module.exports = function(path) {
       // Creates student and section refs in attendance
       Student.hasMany(Attendance);
       Section.hasMany(Attendance);
-      // creates ref to paymentGroup, student and user in
-      // the payment model
-      PaymentGroup.hasMany(Payment);
-      Student.hasMany(Payment);
-      User.hasMany(Payment);
       // creates section ref in paymentGroup
       Section.hasMany(PaymentGroup);
       // TODO: the student join tables and shit

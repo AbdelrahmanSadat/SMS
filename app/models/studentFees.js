@@ -19,7 +19,11 @@ module.exports = function(sequelize) {
     // the actual amount the student is required
     // to pay, which may not always be the
     // default value in the payment group
-    value: DataTypes.REAL
+    value: DataTypes.REAL,
+    // wether the fees were paid or not.
+    // In this case we won't remove the record
+    // when the payment is complete, for data collection purposes
+    paid: DataTypes.BOOLEAN
   });
 
   return StudentFees;
