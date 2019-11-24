@@ -9,10 +9,12 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       allowNull: false
     },
+    name: DataTypes.TEXT,
     date: DataTypes.DATE,
     minimum: DataTypes.REAL,
     maximum: DataTypes.REAL
     // TODO?: other data about the exam, like the file path or something
+    // TODO? Create a section reference? or a class attribute?
   });
 
   return Exam;
