@@ -16,7 +16,7 @@ import Attendance from './components/Attendance/Attendance';
 export default () => (
   <App>
     <Switch>
-      {/* <Route path={routes.COUNTER} component={CounterPage} /> */}
+      <Route path={routes.COUNTER} component={Admission} />
       <Route path={routes.HOME} component={Attendance} />
     </Switch>
   </App>
