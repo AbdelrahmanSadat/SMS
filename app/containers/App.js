@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
-import models from '../utils/database/index'
+import models from '../utils/database/index';
+import AdmissionPage from './AdmissionPage';
 
 type Props = {
   children: React.Node
@@ -9,10 +10,11 @@ type Props = {
 export default class App extends React.Component<Props> {
   props: Props;
 
+  state = {
+    classes: ['1st', '2nd', '3rd', 'other']
+  };
+
   render() {
-    console.log("Found Users:")
-    models.User.findOrCreate({where:{username:"user one", age:"20"}}).then((foundUsers)=>console.log(foundUsers))
-    const { children } = this.props;
-    return <React.Fragment>{children}</React.Fragment>;
+    return <AdmissionPage classes={this.state.classes} />;
   }
 }

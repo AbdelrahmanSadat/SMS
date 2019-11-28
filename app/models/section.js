@@ -19,12 +19,23 @@ module.exports = function(sequelize) {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', 'summer', 'other']
     },
+    // TODO: class is denormalized in section and student
     class: {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', '3rd', 'other']
     },
 
     startingDate: DataTypes.DATE,
+
+    // TODO: dynamic schedule structure
+    // TODO: (days, starting & ending time)
+    // e.g:
+    /*
+      [
+        {day: sat, startingTime: 4:00, endingTime: 6:00},
+        {day: tue, startingTime: 3:00, endingTime: 5:00}
+      ]
+    */
 
     // TODO: Counter incrementing, resetting and limits ???
     counter: DataTypes.INTEGER
@@ -34,7 +45,6 @@ module.exports = function(sequelize) {
     // the payment group with the section's id
     // where the type of payment group is "monthly"
     // or something like that
-
 
     // Using associations already creates a reference
     // to the section the student is assigned to (one-to-many)

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = function(sequelize) {
-  const Student = sequelize.define("student", {
+  const Student = sequelize.define('student', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -12,7 +12,7 @@ module.exports = function(sequelize) {
     // TODO: barID ?
 
     // TODO: next ID (function to keep track of the latest id)
-    
+
     name: DataTypes.TEXT,
     Email: {
       type: DataTypes.TEXT,
@@ -32,43 +32,42 @@ module.exports = function(sequelize) {
     miscNotes: DataTypes.TEXT,
     school: DataTypes.TEXT,
     // sqlite doesn't have an enum type anyway so anything works
+    // TODO: class is denormalized in section and student
     class: {
       type: DataTypes.ENUM,
-      values: ["1st", "2nd", "3rd", "other"]
+      values: ['1st', '2nd', '3rd', 'other']
     },
-    
-    
+
     status: {
       type: DataTypes.ENUM,
       // TODO?: notes on terminated and wanted status
       // TODO?: could be implemented in pre-save code
-      values: ["Active", "Terminated", "Wanted", "other"]
+      values: ['Active', 'Terminated', 'Wanted', 'other']
     },
-    
+
     // TODO?: modification/validation/refactoring/re-implementaion
     attendanceCounter: DataTypes.INTEGER,
-    
+
     warnings: DataTypes.TEXT
-    
+
     // * fees
     // [{paymentGroup, due date, value}]
     // create a foreign key (associations?) that points
     // to a newly created table (studentFees?) that
-    // contatins the studentID? , payment group id, 
+    // contatins the studentID? , payment group id,
     // value to pay, and a due date
-    
+
     // * exam
     // same as payment
 
     // * reservation date:
     // reservation date can be known by searching the
     // payments table with the student id and the type "reservation"
-    
 
     // TODO?: average attendance rate ?
     // * attendance:
     // the attendance table has a ref to the student
-    
+
     // * assignedSection:
     // Using associations already creates a reference
     // to the section the student is assigned to

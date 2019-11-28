@@ -15,6 +15,10 @@ module.exports = function(sequelize) {
     //   allowNull: false
     // },
 
+    // by default, the name in the payment group
+    // but can be changed or if there's no PG ref.
+    name:  DataTypes.TEXT,
+
     dueDate: DataTypes.DATE,
     // the actual amount the student is required
     // to pay, which may not always be the
