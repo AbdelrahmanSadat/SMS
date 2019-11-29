@@ -22,6 +22,7 @@ let section = require('../../models/section');
 let student = require('../../models/student');
 let studentExam = require('../../models/studentExam');
 let studentFees = require('../../models/studentFees');
+let studentWarning = require('../../models/studentWarning');
 let user = require('../../models/user');
 let warning = require('../../models/warning');
 
@@ -33,7 +34,6 @@ module.exports = function(path) {
     storage: path
   });
 
-  // TODO: remove unused variable assignments
   let Attendance = attendance(sequelize);
   let Exam = exam(sequelize);
   let Expense = expenses(sequelize);
@@ -43,6 +43,7 @@ module.exports = function(path) {
   let Student = student(sequelize);
   let StudentExam = studentExam(sequelize);
   let StudentFees = studentFees(sequelize);
+  let StudentWarning = studentWarning(sequelize);
   let User = user(sequelize);
   let Warning = warning(sequelize);
 
@@ -57,19 +58,31 @@ module.exports = function(path) {
   Section.hasMany(Attendance);
   // creates section ref in paymentGroup
   Section.hasMany(PaymentGroup);
-  // TODO: the student join tables and shit
+  
+  // Student join tables
   Student.belongsToMany(PaymentGroup, {
     through: StudentFees
   });
   PaymentGroup.belongsToMany(Student, {
     through: StudentFees
   });
+
   Student.belongsToMany(Exam, {
     through: StudentExam
   });
   Exam.belongsToMany(Student, {
     through: StudentExam
   });
+
+  Student.belongsToMany(Warning, {
+    through: StudentWarning
+  });
+  Warning.belongsToMany(Student, {
+    through: StudentWarning
+  });
+
+  console.log(Warning)
+  console.log(StudentWarning)
 
   // Testing the connection
   sequelize
@@ -103,6 +116,7 @@ module.exports = function(path) {
     Student,
     StudentExam,
     StudentFees,
+    StudentWarning,
     User,
     Warning
   };

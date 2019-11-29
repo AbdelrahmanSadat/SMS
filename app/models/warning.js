@@ -16,6 +16,7 @@ module.exports = function(sequelize) {
     text: {
       type: DataTypes.TEXT
     }
+    //* studentWarning Ref
   });
 
   return Warning;

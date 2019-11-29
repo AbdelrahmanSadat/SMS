@@ -48,8 +48,6 @@ module.exports = function(sequelize) {
     // TODO?: modification/validation/refactoring/re-implementaion
     attendanceCounter: DataTypes.INTEGER,
 
-    warnings: DataTypes.TEXT
-
     // * fees
     // [{paymentGroup, due date, value}]
     // create a foreign key (associations?) that points
@@ -71,6 +69,8 @@ module.exports = function(sequelize) {
     // * assignedSection:
     // Using associations already creates a reference
     // to the section the student is assigned to
+
+    //* studentWarning Ref
   });
   
   return Student;
