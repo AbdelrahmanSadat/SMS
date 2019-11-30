@@ -17,7 +17,6 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import log from 'electron-log';
 import MenuBuilder from './menu';
-import sequelizeSetup from './utils/database/db';
 
 // TODO: remove
 // console.log("-----------------------------------------------------")
@@ -85,7 +84,7 @@ app.on('ready', async () => {
   // * setup the database connection
   // let sequelize = sequelizeSetup(path.resolve(app.getPath('desktop'), 'devDb.db'));
   // creates db file in the root directory of the app
-  let sequelize = sequelizeSetup('./dbtest.db');
+  // let sequelize = sequelizeSetup('./dbtest.db');
 
   mainWindow = new BrowserWindow({
     show: false,
