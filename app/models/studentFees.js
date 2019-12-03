@@ -7,13 +7,13 @@ const { DataTypes } = require('sequelize');
 module.exports = function(sequelize) {
   const StudentFees = sequelize.define('studentFees', {
     // ? ID is not needed in the join table
-    // id: {
-    //   type: DataTypes.INTEGER,
-    //   primaryKey: true,
-    //   unique: true /* ? redundant with primary key? */,
-    //   autoIncrement: true,
-    //   allowNull: false
-    // },
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      unique: true /* ? redundant with primary key? */,
+      autoIncrement: true,
+      allowNull: false
+    },
 
     // by default, the name in the payment group
     // but can be changed or if there's no PG ref.

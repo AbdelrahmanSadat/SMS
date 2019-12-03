@@ -38,6 +38,7 @@ module.exports = function(sequelize) {
       values: ['1st', '2nd', '3rd', 'other']
     },
 
+    // TODO: add defalut value (active)
     status: {
       type: DataTypes.ENUM,
       // TODO?: notes on terminated and wanted status
@@ -46,6 +47,7 @@ module.exports = function(sequelize) {
     },
 
     // TODO?: modification/validation/refactoring/re-implementaion
+    // TODO: add default value (0)
     attendanceCounter: DataTypes.INTEGER,
 
     // * fees

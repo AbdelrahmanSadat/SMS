@@ -38,7 +38,13 @@ module.exports = function(sequelize) {
     */
 
     // TODO: Counter incrementing, resetting and limits ???
-    counter: DataTypes.INTEGER
+    counter: DataTypes.INTEGER,
+
+    // ! ref from payment group is no longer needed???
+    // Admission fees (mlazm, etc...) excluding monthly fees
+    defaultAdmissionFees: DataTypes.REAL,
+
+    defaultMonthlyFees: DataTypes.REAL,
 
     // payment group references the section
     // to find the default monthly fees just search
