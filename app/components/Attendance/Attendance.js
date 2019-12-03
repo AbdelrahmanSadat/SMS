@@ -1,6 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
 import routes from '../../constants/routes.json';
+// import models from '../../utils/database';
+// ?import 'semantic-ui-css/semantic.js';
+import { Button } from 'semantic-ui-react';
+console.log(models);
 
 const Attendance = props => (
   <div>
@@ -21,8 +25,9 @@ const Attendance = props => (
       </li>
       <li>Handle warnings with a modal (Skip, Deny)</li>
     </ul>
+    <Button primary>Semantic UI React Button</Button>
     <Link to={routes.COUNTER}>to Counter</Link>
   </div>
 )
 
-export default Attendance
+export default Attendance;

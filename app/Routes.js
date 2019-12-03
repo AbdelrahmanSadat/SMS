@@ -7,7 +7,9 @@ import App from './containers/App';
 //* The boilerplate uses a container for each component?
 //* and imports that container which in turn renders
 //* component
-import Admission from './components/Admission/Admission';
+// import Admission from './components/Admission/Admission';
+// TODO: import containers instead of components
+import AdmissionPage from './containers/AdmissionPage';
 import Attendance from './components/Attendance/Attendance';
 
 // TODO: define the rest of the routes
@@ -16,7 +18,7 @@ import Attendance from './components/Attendance/Attendance';
 export default () => (
   <App>
     <Switch>
-      <Route path={routes.COUNTER} component={Admission} />
+      <Route path={routes.COUNTER} component={AdmissionPage} />
       <Route path={routes.HOME} component={Attendance} />
     </Switch>
   </App>

@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import routes from '../../constants/routes.json';
 
-
 const Admission = props => (
   <div>
-  {console.log(props.classes)}
+    {console.log(props.classes)}
     <input type="text" placeholder="Increment last ID in DB" disabled />
     <br />
     <br />
@@ -57,6 +56,6 @@ const Admission = props => (
     </ul>
     <Link to={routes.HOME}>to Counter</Link>
   </div>
-)
+);
 
-export default Admission
+export default Admission;
