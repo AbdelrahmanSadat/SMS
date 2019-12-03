@@ -1,47 +1,48 @@
-import React from 'react';
+import React from 'react'
+import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Form, Input, Button } from 'semantic-ui-react';
 
 
-
-const Payment = (props)=>(
+const Payment = (props) => (
   <div>
-  <input type = "text" placeholder = "ID"></input>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Class</th>
-        <th>Section</th>
-        <th>Due Payment</th>
-        <th>Pay Button</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-      <th>Default ID</th>
-      <th>Default Name</th>
-      <th>Default Class</th>
-      <th>Default Section</th>
-      <th>Default Payment</th>
-      <th>Pay</th>
-      </tr>
-    </tbody>
-  </table>
-    <ul style = {{listStyleType:"none"}}>
-      <li>Fetch Student Data Using ID & Rerender</li>
-      <li>onClicking Pay Prompt Confirmation through a modal</li>
-      <li>onConfirmation, Mark The Paid Fees in the student payment record</li>
-      <li>reFetch Due Fees from student & reRener</li>
-      <li>Add payment to the income records</li>
-    </ul>
+    <Form>
+      <Form.Field inline>
+        <label>ID</label>
+        <Input/>
+      </Form.Field>
+    </Form>
+    <p>ID: Fetched From DB</p>
+    <p>Name: Fetched From DB</p>
+    <p>Class: Fetched From DB</p>
+    <p>Section: Fetched From DB</p>
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Value</Table.HeaderCell>
+          <Table.HeaderCell>Action</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>ملازم</Table.Cell>
+          <Table.Cell>100 EGP</Table.Cell>
+          <Table.Cell><button>Pay</button></Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>شهر</Table.Cell>
+          <Table.Cell>80 EGP</Table.Cell>
+          <Table.Cell><button>Pay</button></Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>موقغ</Table.Cell>
+          <Table.Cell>20 EGP</Table.Cell>
+          <Table.Cell><button>Pay</button></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
   </div>
 )
 
-
-
-
-
-
-
-
-export default Payment;
+export default Payment
