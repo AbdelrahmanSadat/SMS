@@ -31,8 +31,6 @@ class AddPaymentGroupPage extends Component {
       <div>
         <AddPaymentGroup
           paymentGroupData={this.state.paymentGroupData}
-          paymentName={this.state.paymentGroupData.paymentName}
-          paymentValue={this.state.paymentGroupData.paymentValue}
           inputHandler={(e, d) => this.inputHandler(e, d, 'paymentGroupData')}
           onSubmit={event => this.onSubmit(event)}
         />

@@ -17,7 +17,6 @@ class AddSectionPage extends Component {
       monthlyFees: '',
       admissionFees: ''
     },
-    // TODO: move to constants
     classOptions
   };
 
@@ -39,6 +38,7 @@ class AddSectionPage extends Component {
       <div>
         <AddSection
           classes={this.state.classOptions}
+          sectionData={this.state.sectionData}
           onSubmit={event => this.onSubmit(event)}
           inputHandler={(e, d) => this.inputHandler(e, d, 'sectionData')}
         />

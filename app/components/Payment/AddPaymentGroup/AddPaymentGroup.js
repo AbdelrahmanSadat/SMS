@@ -5,7 +5,7 @@ const AddPaymentGroup = props => (
   <Form onSubmit={props.onSubmit}>
     <Form.Group unstackable widths={2}>
       <Form.Input
-        value={props.paymentName}
+        value={props.paymentGroupData.paymentName}
         onChange={props.inputHandler}
         name="paymentName"
         label="Payment Name"
@@ -13,7 +13,7 @@ const AddPaymentGroup = props => (
         required
       />
       <Form.Input
-        value={props.paymentValue}
+        value={props.paymentGroupData.paymentValue}
         onChange={props.inputHandler}
         name="paymentValue"
         label="Payment Value"

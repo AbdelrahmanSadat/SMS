@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Form } from 'semantic-ui-react';
 
-
-// TODO: currently one-way binded. bind two-ways???
 const AddSection = props => (
   <Form onSubmit={props.onSubmit}>
     <Form.Group unstackable widths={2}>
@@ -13,6 +11,7 @@ const AddSection = props => (
         options={props.classes}
         placeholder="Class"
         onChange={props.inputHandler}
+        value={props.sectionData.class}
         name="class"
       />
       <Form.Input
@@ -20,6 +19,7 @@ const AddSection = props => (
         placeholder="A-1"
         required
         onChange={props.inputHandler}
+        value={props.sectionData.sectionName}
         name="sectionName"
       />
     </Form.Group>
@@ -29,6 +29,7 @@ const AddSection = props => (
         placeholder="EGP"
         required
         name="monthlyFees"
+        value={props.sectionData.monthlyFees}
         onChange={props.inputHandler}
       />
       <Form.Input
@@ -36,6 +37,7 @@ const AddSection = props => (
         placeholder="EGP"
         required
         name="admissionFees"
+        value={props.sectionData.admissionFees}
         onChange={props.inputHandler}
       />
     </Form.Group>
