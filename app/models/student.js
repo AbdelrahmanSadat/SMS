@@ -1,4 +1,5 @@
-const { DataTypes } = require("sequelize");
+const Sequelize = require('sequelize');
+const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
   const Student = sequelize.define('student', {
@@ -32,7 +33,7 @@ module.exports = function(sequelize) {
     miscNotes: DataTypes.TEXT,
     school: DataTypes.TEXT,
     // sqlite doesn't have an enum type anyway so anything works
-    // TODO: class is denormalized in section and student
+    //? class is in both student and section
     class: {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', '3rd', 'other']
@@ -47,8 +48,17 @@ module.exports = function(sequelize) {
     },
 
     // TODO?: modification/validation/refactoring/re-implementaion
-    // TODO: add default value (0)
-    attendanceCounter: DataTypes.INTEGER,
+    attendanceCounter: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+
+    // Date of reservation?
+    reservationDate: {
+      type: DataTypes.DATE,
+      //???
+      defaultValue: Sequelize.NOW
+    }
 
     // * fees
     // [{paymentGroup, due date, value}]
@@ -58,7 +68,7 @@ module.exports = function(sequelize) {
     // value to pay, and a due date
 
     // * exam
-    // same as payment
+    // same as fees?
 
     // * reservation date:
     // reservation date can be known by searching the
@@ -69,11 +79,11 @@ module.exports = function(sequelize) {
     // the attendance table has a ref to the student
 
     // * assignedSection:
-    // Using associations already creates a reference
+    // Using associations creates a reference
     // to the section the student is assigned to
 
     //* studentWarning Ref
   });
-  
+
   return Student;
 };

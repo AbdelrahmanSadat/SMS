@@ -19,7 +19,7 @@ module.exports = function(sequelize) {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', 'summer', 'other']
     },
-    // TODO: class is denormalized in section and student
+    //? class is in both student and section
     class: {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', '3rd', 'other']
@@ -38,20 +38,24 @@ module.exports = function(sequelize) {
     */
 
     // TODO: Counter incrementing, resetting and limits ???
-    counter: DataTypes.INTEGER,
+    counter: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
 
-    // ! ref from payment group is no longer needed???
+    
     // Admission fees (mlazm, etc...) excluding monthly fees
     defaultAdmissionFees: DataTypes.REAL,
-
+    
     defaultMonthlyFees: DataTypes.REAL,
-
+    
     // payment group references the section
     // to find the default monthly fees just search
     // the payment group with the section's id
     // where the type of payment group is "monthly"
     // or something like that
-
+    // ! ref from payment group is no longer needed???
+    
     // Using associations already creates a reference
     // to the section the student is assigned to (one-to-many)
     // in the student's table (one-way referencting)

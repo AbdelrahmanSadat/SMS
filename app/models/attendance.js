@@ -21,7 +21,10 @@ module.exports = function(sequelize) {
     date: DataTypes.DATE,
 
     // wether the student has attended or not
-    attended: DataTypes.BOOLEAN
+    attended: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   });
 
   return Attendance;
