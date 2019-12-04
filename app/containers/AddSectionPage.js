@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import AddSection from '../components/Section/AddSection';
 import { Section } from '../utils/database';
+import genericInputHandler from '../utils/misc/genericInputHandler'
 
 class AddSectionPage extends Component {
+
+  constructor(props) {
+    super(props)
+    this.inputHandler = this.inputHandler.bind(this)
+  }
+
   state = {
     sectionData: {
       class: '',
@@ -10,33 +17,17 @@ class AddSectionPage extends Component {
       monthlyFees: '',
       admissionFees: ''
     },
+    // TODO: move to constants
     classOptions: [
       { key: '1', text: '1st', value: '1st' },
       { key: '2', text: '2nd', value: '2nd' },
       { key: '3', text: '3rd', value: '3rd' },
-      { key: 'o', text: 'other', value: 'other' }
+      { key: 'o', text: 'Other', value: 'other' }
     ]
   };
 
-  inputHandler(event, input) {
-    console.log('STATE');
-    console.log(this.state);
-    let sectionDataCopy = { ...this.state.sectionData };
-    let temp = event.target.value;
-    sectionDataCopy[input] = temp;
-    this.setState({ sectionData: sectionDataCopy });
-  }
+  inputHandler = genericInputHandler
 
-  selectInputHandler(event, input) {
-    console.log('EBENT');
-    console.log(event.target.textContent);
-    console.log('STATE');
-    console.log(this.state);
-    let sectionDataCopy = { ...this.state.sectionData };
-    let temp = event.target.textContent;
-    sectionDataCopy[input] = temp;
-    this.setState({ sectionData: sectionDataCopy });
-  }
 
   async onSubmit(e) {
     e.preventDefault();
@@ -55,16 +46,7 @@ class AddSectionPage extends Component {
         <AddSection
           classes={this.state.classOptions}
           onSubmit={event => this.onSubmit(event)}
-          nameInputHandler={event => this.inputHandler(event, 'sectionName')}
-          monthlyFeesInputHandler={event =>
-            this.inputHandler(event, 'monthlyFees')
-          }
-          admissionFeesInputHandler={event =>
-            this.inputHandler(event, 'admissionFees')
-          }
-          classInputHandler={event =>
-            this.selectInputHandler(event, 'class')
-          }
+          inputHandler={(e, d)=>this.inputHandler(e, d, "sectionData")}
         />
       </div>
     );
