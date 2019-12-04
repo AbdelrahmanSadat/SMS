@@ -15,10 +15,6 @@
 
 // class App extends React.Component<Props> {
 
-//   state = {
-//     classes: ['1st', '2nd', '3rd', 'other']
-//   };
-
 //   render() {
 //     return <DateLayerPage/>;
 //   }

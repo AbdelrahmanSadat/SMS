@@ -1,14 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
 import routes from './constants/routes';
-import App from './containers/App';
-// import HomePage from './containers/HomePage';
-// import CounterPage from './containers/CounterPage';
+
 //* The boilerplate uses a container for each component?
 //* and imports that container which in turn renders
 //* component
-// import Admission from './components/Admission/Admission';
-// TODO: import containers instead of components
+
+import App from './containers/App';
 import AdmissionPage from './containers/AdmissionPage';
 import AttendancePage from './containers/AttendancePage';
 import WarningPage from './containers/WarningPage';
@@ -22,6 +20,7 @@ import StartSessionPage from './containers/StartSessionPage';
 import CreateExamPage from './containers/CreateExamPage';
 import EvaluateExamPage from './containers/EvaluateExamPage';
 import DateLayerPage from './containers/DateLayerPage';
+
 
 // TODO: define the rest of the routes
 // TODO: define the route paths in constants dir.

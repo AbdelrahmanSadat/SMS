@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import AddSection from '../components/Section/AddSection';
 import { Section } from '../utils/database';
-import genericInputHandler from '../utils/misc/genericInputHandler'
+import genericInputHandler from '../utils/misc/genericInputHandler';
+import classOptions from '../constants/classOptions.json';
 
 class AddSectionPage extends Component {
-
   constructor(props) {
-    super(props)
-    this.inputHandler = this.inputHandler.bind(this)
+    super(props);
+    this.inputHandler = this.inputHandler.bind(this);
   }
 
   state = {
@@ -18,16 +18,10 @@ class AddSectionPage extends Component {
       admissionFees: ''
     },
     // TODO: move to constants
-    classOptions: [
-      { key: '1', text: '1st', value: '1st' },
-      { key: '2', text: '2nd', value: '2nd' },
-      { key: '3', text: '3rd', value: '3rd' },
-      { key: 'o', text: 'Other', value: 'other' }
-    ]
+    classOptions
   };
 
-  inputHandler = genericInputHandler
-
+  inputHandler = genericInputHandler;
 
   async onSubmit(e) {
     e.preventDefault();
@@ -46,7 +40,7 @@ class AddSectionPage extends Component {
         <AddSection
           classes={this.state.classOptions}
           onSubmit={event => this.onSubmit(event)}
-          inputHandler={(e, d)=>this.inputHandler(e, d, "sectionData")}
+          inputHandler={(e, d) => this.inputHandler(e, d, 'sectionData')}
         />
       </div>
     );

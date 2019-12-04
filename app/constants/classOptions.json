@@ -1,0 +1,22 @@
+[
+  {
+    "key": "1",
+    "text": "1st",
+    "value": "1st"
+  },
+  {
+    "key": "2",
+    "text": "2nd",
+    "value": "2nd"
+  },
+  {
+    "key": "3",
+    "text": "3rd",
+    "value": "3rd"
+  },
+  {
+    "key": "o",
+    "text": "Other",
+    "value": "other"
+  }
+]
