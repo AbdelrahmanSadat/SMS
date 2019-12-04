@@ -92,10 +92,7 @@ module.exports = function(path) {
 
       sequelize
         // Setting force to "true" drops the database on changes
-        // TODO: remove force
-        .sync({
-          force: true
-        })
+        .sync({force: true})
         .then(() => console.log('Synced'))
         .catch(error => {
           console.log(error);
@@ -107,6 +104,7 @@ module.exports = function(path) {
     });
 
   return {
+    sequelize,
     Attendance,
     Exam,
     Expense,
