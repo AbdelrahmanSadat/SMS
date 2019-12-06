@@ -92,7 +92,7 @@ module.exports = function(path) {
 
       sequelize
         // Setting force to "true" drops the database on changes
-        .sync({force: true})
+        .sync()
         .then(() => console.log('Synced'))
         .catch(error => {
           console.log(error);

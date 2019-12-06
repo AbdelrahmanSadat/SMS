@@ -9,7 +9,10 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       allowNull: false
     },
-    name: DataTypes.TEXT,
+    name: {
+      type: DataTypes.TEXT,
+      unique: true
+    },
     // TODO?: maybe add convention/validation to naming
     // Currently not being used
     // session: DataTypes.TEXT,

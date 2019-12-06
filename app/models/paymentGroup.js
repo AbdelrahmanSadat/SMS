@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 
+// ! paymentGroup may eventually have no real purpose
+
 module.exports = function(sequelize) {
   const PaymentGroup = sequelize.define('paymentGroup', {
     id: {
@@ -10,7 +12,7 @@ module.exports = function(sequelize) {
       allowNull: false
     },
     name: DataTypes.TEXT,
-    
+
     // The type of the payemnt: (monthly, reservation, id,...)
     // TODO?: consider changing to enum for consistency
     // ? or leave it as is for flexibility
@@ -21,7 +23,7 @@ module.exports = function(sequelize) {
     // The number is in days
     // ? may not be used, if so, TODO: remove
     allowedPeriod: DataTypes.INTEGER
-    
+
     //* reference to section
   });
 

@@ -15,6 +15,8 @@ module.exports = function(sequelize) {
       allowNull: false
     },
 
+    // ! paymentGroup may eventually have no real purpose
+
     //? a reference to the paymentGroup is optional???
 
     // by default, the name in the payment group
@@ -29,7 +31,10 @@ module.exports = function(sequelize) {
     // wether the fees were paid or not.
     // In this case we won't remove the record
     // when the payment is complete, for data collection purposes
-    paid: DataTypes.BOOLEAN
+    paid: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   });
 
   return StudentFees;
