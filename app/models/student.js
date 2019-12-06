@@ -15,7 +15,7 @@ module.exports = function(sequelize) {
     // TODO: next ID (function to keep track of the latest id)
 
     name: DataTypes.TEXT,
-    Email: {
+    email: {
       type: DataTypes.TEXT,
       validate: {
         isEmail: true
@@ -28,9 +28,9 @@ module.exports = function(sequelize) {
     parentPhoneNumber: {
       type: DataTypes.TEXT
     },
-    parentJob: DataTypes.TEXT,
+    parentOccupation: DataTypes.TEXT,
     address: DataTypes.TEXT,
-    miscNotes: DataTypes.TEXT,
+    notes: DataTypes.TEXT,
     school: DataTypes.TEXT,
     // sqlite doesn't have an enum type anyway so anything works
     //? class is in both student and section
@@ -42,6 +42,7 @@ module.exports = function(sequelize) {
     // TODO: add defalut value (active)
     status: {
       type: DataTypes.ENUM,
+      defaultValue: "Active",
       // TODO?: notes on terminated and wanted status
       // TODO?: could be implemented in pre-save code
       values: ['Active', 'Terminated', 'Wanted', 'other']
