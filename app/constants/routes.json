@@ -1,4 +1,23 @@
 {
   "HOME": "/",
+  "HR": "/hr",
+  "REPORTS": "/reports",
+  "SEMESTER": "/semester",
+  "Expenses": "/expenses",
+  "INCOME": "/income",
+  "LOGIN": "/login",
+  "PAYMENT": "/payment",
+
+  "ADMISSION": "/admission",
+  "ATTENDANCE": "/attendance",
+  "CREATEEXAM": "/exams/create",
+  "EVALUATEEXAM": "/exams/evaluate",
+  "ADDPAYMENT": "/payment/add",
+  "ADDPAYMENTGROUP": "/paymentGroup/add",
+  "PROFILE": "/profile",
+  "ADDSECTION": "/section/add",
+  "SESSION": "/session",
+
+
   "COUNTER": "/counter"
 }

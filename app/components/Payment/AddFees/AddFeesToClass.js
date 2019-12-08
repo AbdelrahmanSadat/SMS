@@ -1,16 +1,17 @@
 import React from 'react';
 import { Button, Form } from 'semantic-ui-react';
 
-const AddFeesToStudent = props => (
+const AddFeesToClass = props => (
   <Form onSubmit={props.onSubmit}>
     <Form.Group unstackable widths={4}>
-      <Form.Input
-        name="studentId"
-        label="ID"
-        placeholder="1"
+      <Form.Select
+        name="class"
+        label="Class"
+        placeholder="1st"
         required
-        value={props.formData.studentId}
-        onChange={props.inputHandler}
+        value={props.formData.class}
+        onChange={props.classInputHandler}
+        options={props.classOptions}
       />
       <Form.Select
         name="paymentGroup"
@@ -41,4 +42,4 @@ const AddFeesToStudent = props => (
   </Form>
 );
 
-export default AddFeesToStudent;
+export default AddFeesToClass;

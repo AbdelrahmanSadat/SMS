@@ -12,6 +12,9 @@ import AttendancePage from './containers/AttendancePage';
 import WarningPage from './containers/WarningPage';
 import ProfilePage from './containers/ProfilePage';
 import AddFeesPage from './containers/AddFeesPage';
+import AddFeesToStudentPage from './containers/AddFeesToStudentPage';
+import AddFeesToClassPage from './containers/AddFeesToClassPage';
+import AddFeesToSectionPage from './containers/AddFeesToSectionPage';
 import AddPaymentGroupPage from './containers/AddPaymentGroupPage';
 import ConfirmPaymentModalPage from './containers/ConfirmPaymentModalPage';
 import PaymentPage from './containers/PaymentPage';
@@ -28,8 +31,17 @@ import DateLayerPage from './containers/DateLayerPage';
 export default () => (
   <App>
     <Switch>
-      <Route path={routes.COUNTER} component={AdmissionPage} />
-      <Route path={routes.HOME} component={AddSectionPage} />
+      <Route path={routes.HOME} component={AddFeesToSectionPage} />
+
+      {/* <Route path={routes.ADMISSIONS} component={AdmissionPage} />
+      <Route path={routes.ATTENDANCE} component={AttendancePage} />
+      <Route path={routes.CREATEEXAM} component={CreateExamPage} />
+      <Route path={routes.EVALUATEEXAM} component={EvaluateExamPage} />
+      <Route path={routes.PAYMENT} component={PaymentPage} />
+      <Route path={routes.ADDPAYMENTGROUP} component={AddPaymentGroupPage} />
+      <Route path={routes.PROFILE} component={ProfilePage} />
+      <Route path={routes.ADDSECTION} component={AddSectionPage} />
+      <Route path={routes.SESSION} component={StartSessionPage} /> */}
     </Switch>
   </App>
 );
