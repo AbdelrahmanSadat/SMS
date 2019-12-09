@@ -12,7 +12,11 @@ module.exports = function(sequelize) {
     name: DataTypes.TEXT,
     date: DataTypes.DATE,
     minimum: DataTypes.REAL,
-    maximum: DataTypes.REAL
+    maximum: DataTypes.REAL,
+    class: {
+      type: DataTypes.ENUM,
+      values: ['1st', '2nd', '3rd', 'other']
+    }
     // TODO?: other data about the exam, like the file path or something
     // TODO? Create a section reference? or a class attribute?
   });
