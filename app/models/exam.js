@@ -13,6 +13,7 @@ module.exports = function(sequelize) {
     date: DataTypes.DATE,
     minimum: DataTypes.REAL,
     maximum: DataTypes.REAL,
+    // * not used currently(for simplification)
     class: {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', '3rd', 'other']

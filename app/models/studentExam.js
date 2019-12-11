@@ -1,6 +1,10 @@
 // * Join table for student and exam
 // * also contains student's score
 
+// ! Currently the same student can't take 
+// ! the same exam twice, same as other join
+// ! tables by default
+
 const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
@@ -21,7 +25,7 @@ module.exports = function(sequelize) {
     
     passing: DataTypes.BOOLEAN,
 
-    score: DataTypes.DATE
+    score: DataTypes.REAL
   });
 
   return StudentExam;

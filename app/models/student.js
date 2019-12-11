@@ -33,7 +33,7 @@ module.exports = function(sequelize) {
     notes: DataTypes.TEXT,
     school: DataTypes.TEXT,
     // sqlite doesn't have an enum type anyway so anything works
-    //? class is in both student and section
+    //? class is in both student and section (is probably logically fine)
     class: {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', '3rd', 'other']
