@@ -1,5 +1,6 @@
 // TODO: refactro this 140+-line container
-
+// TODO: if payment happens on admission, update
+// TODO: income, and create a payment record ?
 import React, { Component } from 'react';
 import Admission from '../components/Admission/Admission';
 import {
