@@ -61,24 +61,30 @@ module.exports = function(path) {
   
   // Student join tables
   Student.belongsToMany(PaymentGroup, {
-    through: StudentFees
+    through: StudentFees,
+    unique: false
   });
   PaymentGroup.belongsToMany(Student, {
-    through: StudentFees
+    through: StudentFees,
+    unique: false
   });
 
   Student.belongsToMany(Exam, {
-    through: StudentExam
+    through: StudentExam,
+    unique: false
   });
   Exam.belongsToMany(Student, {
-    through: StudentExam
+    through: StudentExam,
+    unique: false
   });
 
   Student.belongsToMany(Warning, {
-    through: StudentWarning
+    through: StudentWarning,
+    unique: false
   });
   Warning.belongsToMany(Student, {
-    through: StudentWarning
+    through: StudentWarning,
+    unique: false
   });
 
   console.log(Warning)
@@ -92,7 +98,8 @@ module.exports = function(path) {
 
       sequelize
         // Setting force to "true" drops the database on changes
-        .sync()
+        // TODO: production: remove alter: true
+        .sync({alter: true})
         .then(() => console.log('Synced'))
         .catch(error => {
           console.log(error);
