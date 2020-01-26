@@ -1,0 +1,10 @@
+- Behaviour: currently, restarting the app or doing a complete refresh
+removes the id of the sections and any id references to those sections
+(possibly related to the full re-syncing operation of the DB on startup)
+(might be due to updated constraints not working with older data so it
+gets omitted)
+
+- Behaviour: Adding fees does not work properly at the moment
+
+- Performance: Issue when closing the app, at least in dev
+  apears to leave running processes in the background???
