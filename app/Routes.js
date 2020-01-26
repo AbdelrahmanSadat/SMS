@@ -32,7 +32,6 @@ export default () => (
   <App>
     <Switch>
       <Route path={routes.HOME} component={AddFeesToSectionPage} />
-
       {/* <Route path={routes.ADMISSIONS} component={AdmissionPage} />
       <Route path={routes.ATTENDANCE} component={AttendancePage} />
       <Route path={routes.CREATEEXAM} component={CreateExamPage} />

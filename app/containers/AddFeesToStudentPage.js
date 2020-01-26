@@ -7,6 +7,8 @@ import { Student, StudentFees, PaymentGroup } from '../utils/database/index';
 // ! because i believe there can't be the same combination
 // ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
 // ! which doesn't fit with our use case
+// * I believe this issue has been resolved
+// * Check to make sure
 
 class AddFeesToStudentPage extends Component {
   constructor(props) {
@@ -81,7 +83,7 @@ class AddFeesToStudentPage extends Component {
     }
     return (
       <div>
-        <AddFeesToStudentPage
+        <AddFeesToStudent
           formData={this.state.formData}
           onSubmit={e => this.onSubmit(e)}
           paymentGroupOptions={paymentGroupOptions}
@@ -95,4 +97,4 @@ class AddFeesToStudentPage extends Component {
   }
 }
 
-export default AddFeesToStudent;
+export default AddFeesToStudentPage;
