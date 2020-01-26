@@ -18,7 +18,9 @@ class AttendancePage extends Component {
 
   state = {
     formData: {
+      // student id?
       id: '',
+      // ? The section's id
       section: '',
       class: '',
       increment: 1,
@@ -33,6 +35,9 @@ class AttendancePage extends Component {
 
   inputHandler = genericInputHandler;
 
+  // handler for class dropdown change
+  // fetches sections with that class for the neighboring
+  // dropdown and creates options for them
   async classInputHandler(e, { name, value }, stateKey) {
     let foundSections = await Section.findAll({
       where: {
@@ -60,10 +65,13 @@ class AttendancePage extends Component {
     });
   }
 
+  // handler for start session button
+  // changes state to reflect ongoing session
+  // modifies the section, and creates attendance records
   async startSessionHandler(e) {
     // e.preventDefault();
     let openSection = this.state.sections.find(
-      section => section.id === this.state.formData.section
+      section => section.id == this.state.formData.section
     );
     await this.setState({
       openSection: openSection,
@@ -72,7 +80,7 @@ class AttendancePage extends Component {
     console.log(this.state);
     // increment section counter
     openSection.counter += this.state.formData.increment;
-    openSection.save()
+    openSection.save();
     // TODO: handler counter reaching max, auto add fees
     //? could be handled from DB models
     // TODO: find all students assigned to section
@@ -82,9 +90,12 @@ class AttendancePage extends Component {
       }
     });
     console.log(assignedStudents);
+    // TODO: bug: no assigned students are found 
+    // (because the student's section reference is null?)
     let attendanceBulkCreateArray = assignedStudents.map((student, index) => {
       return {
         studentId: student.id,
+        // TODO: bug?: sectionID is null
         sectionId: openSection.id,
         date: this.state.formData.date
       };
@@ -94,6 +105,7 @@ class AttendancePage extends Component {
     );
   }
 
+  // handler for end session button
   endSessionHandler(e) {
     this.setState({
       sessionOn: false,
@@ -101,6 +113,12 @@ class AttendancePage extends Component {
     });
   }
 
+  // handler for id form submitting
+  // finds student with id (currently using id not barcode id)
+  // checks if it's their assigned section
+  // checks for warnings
+  // takes student's attendance
+  // * TODO: use barcode ID
   async idSubmitHandler(e) {
     e.preventDefault();
     // TODO?: can keep all the created attendance records (in state?) and
@@ -108,10 +126,12 @@ class AttendancePage extends Component {
     // ? instead of fetching a student and searching attendance every time
     // take the id, find a student who has it
     let foundStudent = await Student.findOne({
-      where: { id: this.state.formData.id },
+      where: {
+        id: this.state.formData.id
+      },
       include: [Warning]
     });
-    console.log(foundStudent)
+    console.log(foundStudent);
     // check if the open section is the same as that student's assigned section
     if (foundStudent.sectionId != this.state.openSection.id) {
       // TODO: warning
@@ -119,10 +139,10 @@ class AttendancePage extends Component {
     }
     // check if there are any warnings on the student
     if (foundStudent.warnings.length > 0) {
-      console.log("WARNINGS")
+      console.log('WARNINGS');
       // TODO: warnings
       // if any exist, display the warnings in text for now
-      console.log(foundStudent.warnings)
+      console.log(foundStudent.warnings);
     }
     // change to attended
     let attendanceRecord = await AttendanceModel.findOne({
@@ -131,9 +151,13 @@ class AttendancePage extends Component {
         sectionId: this.state.openSection.id,
         date: this.state.formData.date
       }
-    })
+    });
     attendanceRecord.attended = true;
-    attendanceRecord.save().then(()=>console.log("updated record"))
+    attendanceRecord.save().then(() => console.log('updated record'));
+    // clear id field for next student
+    this.setState({
+      formData: { id: '' }
+    });
   }
 
   render() {

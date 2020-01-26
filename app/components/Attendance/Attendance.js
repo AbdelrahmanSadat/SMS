@@ -22,7 +22,7 @@ const Attendance = props => (
       <Form.Select
         label="Section"
         name="section"
-        placeholder="1"
+        placeholder="A-1"
         required
         name="section"
         options={props.sectionOptions}
