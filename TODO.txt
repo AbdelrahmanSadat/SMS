@@ -1,5 +1,7 @@
 - Adding fees to session (running session, expired session,...)
 
-- Merging Fee-Addition into one component (secondary) 
+- Merging Fee-Addition components into one component (secondary)
+
+- Payment (check if fully implemented or not)
 
 - Student Profiles (To view and edit each student's data)

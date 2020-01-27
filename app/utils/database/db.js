@@ -49,13 +49,20 @@ module.exports = function(path) {
 
   // * Creating Associations
   // hasMany connects one source to many targets
-  // creates an foreign key of the source in the
+  // creates a foreign key of the source in the
   // target's table
   // will create the attribute SectionId in Student
   Section.hasMany(Student);
   // Creates student and section refs in attendance
   Student.hasMany(Attendance);
-  Section.hasMany(Attendance);
+  Section.hasMany(Attendance, {
+    // in case the "alter" behaviour of the "sync" method
+    // removes some data due to the default CASCADE behaviour
+    // of the assosciation
+    // onDelete: "NO ACTION"
+    // not sure if constraints contribute to that in any way though
+    // constraints: false,
+  });
   // creates section ref in paymentGroup
   Section.hasMany(PaymentGroup);
   
@@ -87,9 +94,6 @@ module.exports = function(path) {
     unique: false
   });
 
-  console.log(Warning)
-  console.log(StudentWarning)
-
   // Testing the connection
   sequelize
     .authenticate()
@@ -98,6 +102,7 @@ module.exports = function(path) {
 
       sequelize
         // Setting force to "true" drops the database on changes
+        // to the models
         // TODO: production: remove alter: true
         .sync({alter: true})
         .then(() => console.log('Synced'))
