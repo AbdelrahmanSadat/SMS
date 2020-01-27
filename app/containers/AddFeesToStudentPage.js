@@ -7,8 +7,8 @@ import { Student, StudentFees, PaymentGroup } from '../utils/database/index';
 // ! because i believe there can't be the same combination
 // ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
 // ! which doesn't fit with our use case
-// * I believe this issue has been resolved
-// * Check to make sure
+// ? I believe this issue has been resolved. Make sure, then remove
+// ? this comment
 
 class AddFeesToStudentPage extends Component {
   constructor(props) {

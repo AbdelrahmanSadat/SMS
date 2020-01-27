@@ -5,3 +5,7 @@
 - Payment (check if fully implemented or not)
 
 - Student Profiles (To view and edit each student's data)
+
+- Documenting the app
+- Documenting the db may not be necessary at the moment
+- Documenting the code itself seems important

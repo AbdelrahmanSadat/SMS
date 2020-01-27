@@ -24,6 +24,8 @@ module.exports = function(sequelize) {
     // ? may not be used, if so, TODO: remove
     allowedPeriod: DataTypes.INTEGER
 
+    // ?not sure wether or not a reference to the section
+    // ?should always be required, or if it can be optional
     //* reference to section
   });
 

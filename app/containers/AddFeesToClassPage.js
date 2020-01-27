@@ -8,6 +8,8 @@ import classOptions from '../constants/classOptions.json';
 // ! because i believe there can't be the same combination
 // ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
 // ! which doesn't fit with our use case
+// ? I believe this issue has been resolved. Make sure, then remove
+// ? this comment
 
 class AddFeesToClassPage extends Component {
   constructor(props) {
