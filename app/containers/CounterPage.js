@@ -1,3 +1,5 @@
+// ! Boilerplate component. Not used in the application
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Counter from '../components/Counter';

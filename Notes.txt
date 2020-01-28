@@ -11,7 +11,7 @@ gets omitted)
 - Behaviour: Adding fees does not work properly at the moment (fixed???)
 
 - Performance: Issue when closing the app, at least in dev
-  apears to leave running processes in the background???
+  apears to leave running processes in the background sometimes???
   
 - Consider splitting containers into two levels of containers
   one that handles the communication with the DB and the other

@@ -1,14 +1,14 @@
-- Adding fees to session (running session, expired session,...)
+- Adding fees to session (running session, expired session(DONE),...)
   (using the attendance model, and searching by date if needed)
-  Adding to a running session is should be from the attendance comp
-  Adding to an expired session should be done by date and time
+  Adding to a running session is should be from the attendance comp-
+  onent Adding to an expired session should be done by date and time
   (so date and time should probably be unique for each session)
   Also, the option of wether to add to all students assigned 
   to a session, or only the ones that attended
 
 - Merging Fee-Addition components into one component (secondary)
 
-- Payment (check if fully implemented or not)
+- Payment (check if fully implemented or not)(implemented)
 
 - Student Profiles (To view and edit each student's data)
 
@@ -17,4 +17,4 @@
 - Documenting the code itself seems important
 
 - Test the app to find out what's working properly and
-  what isn't
+  what isn't (implement routing first to make it less painful)

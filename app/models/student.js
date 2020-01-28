@@ -74,6 +74,8 @@ module.exports = function(sequelize) {
     // * reservation date:
     // reservation date can be known by searching the
     // payments table with the student id and the type "reservation"
+    // ? changes may have led to a reservationDate field being used
+    // ? instead
 
     // TODO?: average attendance rate ?
     // * attendance:
