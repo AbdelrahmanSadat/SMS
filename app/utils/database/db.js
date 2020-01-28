@@ -53,18 +53,27 @@ module.exports = function(path) {
   // target's table
   // will create the attribute SectionId in Student
   Section.hasMany(Student);
-  // Creates student and section refs in attendance
+  Student.belongsTo(Section);
+  
+  // Creates student refs in attendance
   Student.hasMany(Attendance);
+  Attendance.belongsTo(Student);
+  
+  // Creates section ref in attendance
   Section.hasMany(Attendance, {
     // in case the "alter" behaviour of the "sync" method
-    // removes some data due to the default CASCADE behaviour
+    // removes some data due to the default CASCADE behaviour,
+    // or because of cyclic dependency(fixed by constraints removal)
+    // not sure which one caused that issue
     // of the assosciation
     // onDelete: "NO ACTION"
-    // not sure if constraints contribute to that in any way though
     // constraints: false,
   });
+  Attendance.belongsTo(Section);
+
   // creates section ref in paymentGroup
   Section.hasMany(PaymentGroup);
+  PaymentGroup.belongsTo(Section);
   
   // Student join tables
   Student.belongsToMany(PaymentGroup, {
