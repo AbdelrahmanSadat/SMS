@@ -1,6 +1,10 @@
-//  ! Doesn't work. I've given up
+// ! Doesn't work. I've given up
+// ! Bad attempt at creating a more flexible db setup and config
+// ! Not being used at the moment, but I spent enough time on
+// ! it to not want to delete it.
+
 // !*Something about sequelize.import
-// !* and curcular dependencies
+// !* and circular dependencies
 
 let exam = require('./exam');
 let payment = require('./payment');

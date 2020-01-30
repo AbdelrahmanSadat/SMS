@@ -1,8 +1,9 @@
-// TODO: payment model 
-// Keeps track of payment information and details
+// * Keeps track of payment information and details
 // ! removed since all payment data needed can be
 // ! tracked using the income, expense, and studentFees
 // ! models
+
+// *? Might be reconsidered later
 
 // const { DataTypes } = require('sequelize');
 

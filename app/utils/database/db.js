@@ -3,14 +3,6 @@
 // TODO: db path (file should be outside src?)
 // TODO: db seeding
 
-/* 
-  ? There are some instances were we may not want webpack
-  ? to bundle particular assets, like those being consumed by
-  ? modules like fs. Here is where we can put them and then
-  ? reliably access them in both development and production. 
-  ? electron-webpack project structure
-*/
-
 const { Sequelize } = require('sequelize');
 
 let attendance = require('../../models/attendance');
@@ -26,14 +18,21 @@ let studentWarning = require('../../models/studentWarning');
 let user = require('../../models/user');
 let warning = require('../../models/warning');
 
+// * A function that creates a db connection, defines the
+// * models on that db, and syncs the models to the db, I think.
+// * params: a path to the db (to either create one or connect
+// * to an existing db)
+// * returns all the models and the created sequelize connection
 module.exports = function(path) {
   // If the database file didn't exist before,
   // Sequelize will create it (no need to use sqlite3)
   let sequelize = new Sequelize({
+    // creates a connection th the db
     dialect: 'sqlite',
     storage: path
   });
 
+  // ? Defines models on the db we connected to
   let Attendance = attendance(sequelize);
   let Exam = exam(sequelize);
   let Expense = expenses(sequelize);
@@ -48,34 +47,33 @@ module.exports = function(path) {
   let Warning = warning(sequelize);
 
   // * Creating Associations
-  // hasMany connects one source to many targets
-  // creates a foreign key of the source in the
-  // target's table
   // will create the attribute SectionId in Student
   Section.hasMany(Student);
   Student.belongsTo(Section);
-  
+
   // Creates student refs in attendance
   Student.hasMany(Attendance);
   Attendance.belongsTo(Student);
-  
+
   // Creates section ref in attendance
   Section.hasMany(Attendance, {
-    // in case the "alter" behaviour of the "sync" method
-    // removes some data due to the default CASCADE behaviour,
-    // or because of cyclic dependency(fixed by constraints removal)
-    // not sure which one caused that issue
-    // of the assosciation
+    // The 'alter' option of the 'sync' function sometimes caused
+    // the removal of certain columns' data (foreign keys)
+    // on startups and complete refreshing of the app.
+    // This may have been caused by the default CASCADE behaviour
+    // on the deletion of the referenced row (deletions by 'alter'),
+    // or by cyclic dependencies between the tables.
+    // These issues are resloved by the following options respectively
     // onDelete: "NO ACTION"
-    // constraints: false,
+    // constraints: false,});
   });
   Attendance.belongsTo(Section);
 
   // creates section ref in paymentGroup
   Section.hasMany(PaymentGroup);
   PaymentGroup.belongsTo(Section);
-  
-  // Student join tables
+
+  // Joins Student and PaymentGroup through StudentFees
   Student.belongsToMany(PaymentGroup, {
     through: StudentFees,
     unique: false
@@ -85,6 +83,7 @@ module.exports = function(path) {
     unique: false
   });
 
+  // Joins Student and Exam through StudentExam
   Student.belongsToMany(Exam, {
     through: StudentExam,
     unique: false
@@ -94,6 +93,7 @@ module.exports = function(path) {
     unique: false
   });
 
+  // Joins Student and Warning through StudentWarning
   Student.belongsToMany(Warning, {
     through: StudentWarning,
     unique: false
@@ -113,7 +113,7 @@ module.exports = function(path) {
         // Setting force to "true" drops the database on changes
         // to the models
         // TODO: production: remove alter: true
-        .sync({alter: true})
+        .sync({ alter: true })
         .then(() => console.log('Synced'))
         .catch(error => {
           console.log(error);
@@ -124,6 +124,9 @@ module.exports = function(path) {
       console.error('Unable to connect to the database:', err);
     });
 
+  // exports the models so that the can be used from anywhere else
+  // given that a connection has been established earlier
+  // ? this may not be the optimal way to implement this
   return {
     sequelize,
     Attendance,

@@ -20,7 +20,6 @@ module.exports = function(sequelize) {
     value: DataTypes.REAL,
 
     // The default allowed number of days for this payment group
-    // The number is in days
     // ? may not be used, if so, TODO: remove
     allowedPeriod: DataTypes.INTEGER
 

@@ -2,6 +2,8 @@
 // * also contains due date for each payment
 // * and the actual value to be paid by student
 
+// ! paymentGroup may eventually have no real purpose
+
 const { DataTypes } = require('sequelize');
 
 module.exports = function(sequelize) {
@@ -14,19 +16,12 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       allowNull: false
     },
-
-    // !Payment group reference in student fees is likely a bad idea
-    // ! because i believe there can't be the same combination
-    // ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
-    // ! which doesn't fit with our use case
-    // ? I believe this issue has been resolved. Make sure, then remove
-    // ? this comment
-
-    // ! paymentGroup may eventually have no real purpose
+    
 
     //? a reference to the paymentGroup is optional???
-
     // * reference to payment group
+
+    // * reference to student
 
     // by default, the name in the payment group
     // but can be changed or if there's no PG ref.

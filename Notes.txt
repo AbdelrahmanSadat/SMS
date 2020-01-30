@@ -16,3 +16,16 @@ gets omitted)
 - Consider splitting containers into two levels of containers
   one that handles the communication with the DB and the other
   handles the UI logic
+
+- Consider adding an additional layer to the project's 
+  architecture to contain the business logic and communicate
+  with the Model layer.
+  This layer could be considered as an API, so it should be
+  well documented for any possible users who might interact
+  with it.
+  Consider also checking other projects for how they implement
+  API functionality (like Winds application on github).
+  On a quick glance of their API, one of the things that
+  caught my eye is that functions can throw errors to be
+  handled by the user of the API in case they misuse it.
+  

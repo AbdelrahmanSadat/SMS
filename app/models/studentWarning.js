@@ -12,7 +12,10 @@ module.exports = function(sequelize) {
       unique: true /* ? redundant with primary key? */,
       autoIncrement: true,
       allowNull: false
-    },
+    }
+
+    // * ref to student
+    // * ref to warning
   });
 
   return StudentWarning;

@@ -3,3 +3,5 @@
 // ? might be sufficent given that each
 // ? payment group has a type attribute that can
 // ? be set to "reservations"
+
+// ? not really sure what the purpose of this model was TBH

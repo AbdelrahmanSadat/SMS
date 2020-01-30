@@ -61,31 +61,14 @@ module.exports = function(sequelize) {
       defaultValue: Sequelize.NOW
     }
 
-    // * fees
-    // [{paymentGroup, due date, value}]
-    // create a foreign key (associations?) that points
-    // to a newly created table (studentFees?) that
-    // contatins the studentID? , payment group id,
-    // value to pay, and a due date
-
     // * exam
     // same as fees?
 
-    // * reservation date:
-    // reservation date can be known by searching the
-    // payments table with the student id and the type "reservation"
-    // ? changes may have led to a reservationDate field being used
-    // ? instead
-
     // TODO?: average attendance rate ?
-    // * attendance:
-    // the attendance table has a ref to the student
 
     // * assignedSection:
     // Using associations creates a reference
     // to the section the student is assigned to
-
-    //* studentWarning Ref
   });
 
   return Student;

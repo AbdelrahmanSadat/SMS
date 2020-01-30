@@ -9,20 +9,25 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       allowNull: false
     },
+    
     name: {
       type: DataTypes.TEXT,
       unique: true
     },
+
     // TODO?: maybe add convention/validation to naming
-    // Currently not being used
+    // ??? Currently not being used
     // session: DataTypes.TEXT,
+
     // TODO?: change enum type to allow more flexibility?
     // sqlite doesn't have an enum type anyway, so anything works
     semester: {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', 'summer', 'other']
     },
-    //? class is in both student and section
+    // ? class is in both student (which references the section) 
+    // ? and section itself. 
+    // TODO: DENORMALIZE
     class: {
       type: DataTypes.ENUM,
       values: ['1st', '2nd', '3rd', 'other']
@@ -52,7 +57,7 @@ module.exports = function(sequelize) {
     
     defaultMonthlyFees: DataTypes.REAL,
     
-    // payment group references the section
+    // payment group references the section.
     // to find the default monthly fees just search
     // the payment group with the section's id
     // where the type of payment group is "monthly"
@@ -62,7 +67,6 @@ module.exports = function(sequelize) {
     // Using associations already creates a reference
     // to the section the student is assigned to (one-to-many)
     // in the student's table (one-way referencting)
-    //
   });
 
   return Section;
