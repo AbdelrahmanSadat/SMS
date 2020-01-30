@@ -29,6 +29,7 @@ class ProfilePage extends Component {
       class: '',
       status: '',
       attendanceCounter: '', // ? not sure how this can be used here
+      sectionName: '',
       section: {},
       warnings: [],
       attendance: [], // ? not sure to display this here or not
@@ -55,7 +56,10 @@ class ProfilePage extends Component {
     });
 
     this.setState({
-      studentEditFormData: { ...foundStudent.dataValues }
+      studentEditFormData: {
+        ...foundStudent.dataValues,
+        sectionName: foundStudent.section.name
+      }
     });
 
     console.log(foundStudent.dataValues);
@@ -65,11 +69,21 @@ class ProfilePage extends Component {
   async studentEditOnSubmit(e) {
     e.preventDefault();
 
-    // TODO:
-    // * Update the student model with the new data from the form
-    // * Note that some of the student model's fields are not
-    // * in the form data
     let studentCopy = cloneDeep(this.state.student);
+
+    if (
+      studentCopy.section.name != this.state.studentEditFormData.sectionName
+    ) {
+      let newSection = await Section.findOne({
+        where: {
+          name: this.state.studentEditFormData.sectionName
+        }
+      });
+      // ? double negative?
+      // ? should check if a section with that name was found
+      if (!!newSection) studentCopy.sectionId = newSection.id;
+      // otherwise, display that now section with that name exists
+    }
 
     // merges the new values with the student model
     merge(studentCopy, studentCopy, this.state.studentEditFormData);

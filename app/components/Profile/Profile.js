@@ -96,13 +96,16 @@ const Profile = props => (
         disabled={!props.studentEditFormData.allowEditing}
         value={props.studentEditFormData.phoneNumber}
       />
-      {/* // TODO: properly implement reservation date editing */}
+      {/* // TODO: properly implement reservation date editing 
+      */}
       {/* <Form.Input
+        label="Reservation Date-Time"
+        type="datetime-local"
+        required
         name="reservationDate"
-        label="Reservation Date"
+        value={props.studentEditFormData.reservationDate}
         onChange={props.studentEditInputHandler}
         disabled={!props.studentEditFormData.allowEditing}
-        value={props.studentEditFormData.reservationDate}
       /> */}
       <Form.Input
         name="School"
@@ -111,9 +114,16 @@ const Profile = props => (
         disabled={!props.studentEditFormData.allowEditing}
         value={props.studentEditFormData.school}
       />
-      {/* // TODO: Allow section editing */}
-      {/* <Form.Input name="section" onChange={props.studentEditInputHandler}
-      disabled={!props.studentEditFormData.allowEditing}/> */}
+      {/* // TODO: make section input using a dropdown of
+          // TODO: all sections, maybe filtered by class
+      */}
+      <Form.Input
+        name="sectionName"
+        label="Section Name"
+        onChange={props.studentEditInputHandler}
+        disabled={!props.studentEditFormData.allowEditing}
+        value={props.studentEditFormData.sectionName}
+      />
       <Form.Input
         name="status"
         label="Status"
