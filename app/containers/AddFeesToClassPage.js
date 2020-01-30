@@ -1,15 +1,12 @@
+// * Adds Fees to all students that belong to a certain class.
+// * The fees can be chosen using a predefined payment group,
+// * or using a hard value provided by the user
+
 import React, { Component } from 'react';
 import AddFeesToClass from '../components/Payment/AddFees/AddFeesToClass';
 import genericInputHandler from '../utils/misc/genericInputHandler';
 import { Student, StudentFees, PaymentGroup } from '../utils/database/index';
 import classOptions from '../constants/classOptions.json';
-
-// !Payment group reference in student fees is a bad idea
-// ! because i believe there can't be the same combination
-// ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
-// ! which doesn't fit with our use case
-// ? I believe this issue has been resolved. Make sure, then remove
-// ? this comment
 
 class AddFeesToClassPage extends Component {
   constructor(props) {
@@ -33,14 +30,23 @@ class AddFeesToClassPage extends Component {
 
   inputHandler = genericInputHandler;
 
+  // * Finds all the payment groups to dispay them as options
+  // * to the user in order to add them as fees to the students
+  // * (The user can always add a hard value instead of choosing
+  // * a payment group)
+  async componentDidMount() {
+    let paymentGroups = await PaymentGroup.findAll({});
+    this.setState({ paymentGroups });
+  }
+
+  // * When the user chooses a class, finds all students
+  // * that belong to that class, then passes control to inpuHandler
   async classInputHandler(e, { name, value }, stateKey) {
     let foundStudents = await Student.findAll({
       where: {
         class: value
       }
     });
-    console.log(name, value);
-    console.log(foundStudents);
 
     this.setState({
       students: foundStudents
@@ -49,6 +55,8 @@ class AddFeesToClassPage extends Component {
     this.inputHandler(e, { name, value }, stateKey);
   }
 
+  // * Changes the appropriate state values when the user
+  // * chooses a payment group
   async paymentGroupInputHandler(e, { name, value }) {
     let paymentGroup = this.state.paymentGroups.find(
       (paymentGroup, index) => paymentGroup.name === value
@@ -63,16 +71,14 @@ class AddFeesToClassPage extends Component {
     // this.inputHandler(e, { name, value }, 'formData');
   }
 
-  async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
-    this.setState({ paymentGroups });
-  }
-
+  // * Creates the fees records using the value and name
+  // * the fees provided by the user
+  // * TODO?: adding references to the payment group if
+  // * TODO?: the user added fees using one
   async onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
 
-    // array holding rows to create
+    // Creates the fees record to add to the db
     let createObjects = this.state.students.map((student, index) => {
       return {
         studentId: student.dataValues.id,
@@ -84,12 +90,10 @@ class AddFeesToClassPage extends Component {
     // TODO: if there are no students, do an error thingy
     // TODO?: add reference to payment group (id)?
     let createdStudentFees = await StudentFees.bulkCreate(createObjects);
-
-    console.log(createdStudentFees);
-    // createdFees=null
   }
 
   render() {
+    // uses the payment groups found in the db to create input options
     let paymentGroupOptions;
     if (this.state.paymentGroups.length > 0) {
       paymentGroupOptions = this.state.paymentGroups.map(

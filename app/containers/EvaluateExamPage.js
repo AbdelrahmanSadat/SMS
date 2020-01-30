@@ -1,3 +1,5 @@
+// * Evaluates the exam
+
 import React, { Component } from 'react';
 import EvaluateExam from '../components/Exams/EvaluateExam/EvaluateExam';
 import genericInputHandler from '../utils/misc/genericInputHandler';
@@ -26,6 +28,9 @@ class EvaluateExamPage extends Component {
 
   inputHandler = genericInputHandler;
 
+  // * Changes the set of exams to display in the exam input options
+  // * The user selects a date, and all exams that were created
+  // * with that date are shown.
   async dateInputHandler(e, { name, value }, stateKey) {
     // Setting up a date-time range from the beginning of
     // the day to its end to use in exam fetching by date
@@ -70,6 +75,7 @@ class EvaluateExamPage extends Component {
     await this.setState(stateCopy);
   }
 
+  // * Creates a record for grading the student for the exam
   async submitHandler(e) {
     e.preventDefault();
     let formData = this.state.evaluationFormData;

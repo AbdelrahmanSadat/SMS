@@ -1,3 +1,6 @@
+// * Displays a students info and allows editing of that information.
+// * Finds the student using their id.
+
 import React, { Component } from 'react';
 import { cloneDeep, merge } from 'lodash';
 import Profile from '../components/Profile/Profile';

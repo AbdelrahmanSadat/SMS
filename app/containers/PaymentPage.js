@@ -1,3 +1,5 @@
+// * Fee payment
+
 import React, { Component } from 'react';
 import Payment from '../components/Payment/Payment';
 import genericInputHandler from '../utils/misc/genericInputHandler';
@@ -21,6 +23,7 @@ class PaymentPage extends Component {
 
   inputHandler = genericInputHandler;
 
+  // * Finds the fees for a certain student using their id
   async submitHandler(e) {
     e.preventDefault();
     let foundFees = await StudentFees.findAll({
@@ -32,6 +35,8 @@ class PaymentPage extends Component {
     this.setState({ fees: foundFees });
   }
 
+  // * Sets the fee record's paid field to true
+  // * and removes that fee from the state
   async payClickHandler(e, id) {
     let fee = this.state.fees.find((fee, index) => fee.id == id);
     fee.paid = true;

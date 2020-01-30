@@ -1,14 +1,12 @@
+// * Adds fees to a single student using their ID
+// * The fees can be chosen using a predefined payment group,
+// * or using a hard value provided by the user
+
 import React, { Component } from 'react';
 import AddFeesToStudent from '../components/Payment/AddFees/AddFeesToStudent';
 import genericInputHandler from '../utils/misc/genericInputHandler';
 import { Student, StudentFees, PaymentGroup } from '../utils/database/index';
 
-// !Payment group reference in student fees is a bad idea
-// ! because i believe there can't be the same combination
-// ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
-// ! which doesn't fit with our use case
-// ? I believe this issue has been resolved. Make sure, then remove
-// ? this comment
 
 class AddFeesToStudentPage extends Component {
   constructor(props) {
@@ -23,13 +21,22 @@ class AddFeesToStudentPage extends Component {
       value: '',
       name: '',
       // payment group's id, not used currently
-      id:null
+      id: null
     },
     paymentGroups: []
   };
 
   inputHandler = genericInputHandler;
 
+  // * Finds all the payment groups in order to display
+  // * them to the user as input options
+  async componentDidMount() {
+    let paymentGroups = await PaymentGroup.findAll({});
+    this.setState({ paymentGroups });
+  }
+
+  // * Changes the appropriate state values when the user
+  // * chooses a payment group
   async paymentGroupInputHandler(e, { name, value }) {
     let paymentGroup = this.state.paymentGroups.find(
       (paymentGroup, index) => paymentGroup.name === value
@@ -44,14 +51,10 @@ class AddFeesToStudentPage extends Component {
     // this.inputHandler(e, { name, value }, 'formData');
   }
 
-  async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
-    this.setState({ paymentGroups });
-  }
 
+  // * Creates the fees to add to the student
   async onSubmit(e) {
     e.preventDefault();
-    console.log(this.state)
     let foundStudent = await Student.findOne({
       where: { id: this.state.formData.studentId }
     });
@@ -63,9 +66,6 @@ class AddFeesToStudentPage extends Component {
       value: this.state.formData.value,
       name: this.state.formData.name
     });
-
-    console.log(createdFees)
-    // createdFees=null
   }
 
   render() {

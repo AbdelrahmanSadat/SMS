@@ -1,3 +1,5 @@
+// * Adds section
+
 import React, { Component } from 'react';
 import AddSection from '../components/Section/AddSection';
 import { Section } from '../utils/database';
@@ -30,7 +32,6 @@ class AddSectionPage extends Component {
       defaultAdmissionFees: this.state.sectionData.admissionFees,
       defaultMonthlyFees: this.state.sectionData.monthlyFees
     });
-    console.log(createdSeciton);
   }
 
   render() {

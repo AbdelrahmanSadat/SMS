@@ -1,3 +1,5 @@
+// * Creates a payment group
+
 import React, { Component } from 'react';
 import AddPaymentGroup from '../components/Payment/AddPaymentGroup/AddPaymentGroup';
 import { PaymentGroup } from '../utils/database/index.js';
@@ -23,7 +25,6 @@ class AddPaymentGroupPage extends Component {
       name: this.state.paymentGroupData.paymentName,
       value: this.state.paymentGroupData.paymentValue
     });
-    console.log(createdPaymentGroup);
   }
 
   render() {

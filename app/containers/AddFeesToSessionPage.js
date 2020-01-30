@@ -1,3 +1,12 @@
+// * Adds fees to all students in a certain session, according to
+// * the session's date and time. Can add fees to  only the students
+// * who attended the session, or to all who should've attended
+// * (Uses the attendance records to identify the sessions by date)
+// * The fees can be chosen using a predefined payment group,
+// * or using a hard value provided by the user
+
+// TODO: add the option to add fees to a session while it's running
+
 import React, { Component } from 'react';
 import AddFeesToSession from '../components/Payment/AddFees/AddFeesToSession';
 import genericInputHandler from '../utils/misc/genericInputHandler';
@@ -7,15 +16,6 @@ import {
   PaymentGroup,
   Attendance
 } from '../utils/database/index';
-
-// !Payment group reference in student fees is a bad idea
-// ! because i believe there can't be the same combination
-// ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
-// ! which doesn't fit with our use case
-// ? I believe this issue has been resolved. Make sure, then remove
-// ? this comment
-
-// TODO: add the option to add fees to only the attended students
 
 class AddFeesToSessionPage extends Component {
   constructor(props) {
@@ -38,6 +38,15 @@ class AddFeesToSessionPage extends Component {
 
   inputHandler = genericInputHandler;
 
+  // * Fetches all the payment groups to display them as options
+  // * to the user
+  async componentDidMount() {
+    let paymentGroups = await PaymentGroup.findAll({});
+    this.setState({ paymentGroups });
+  }
+
+  // * Changes the appropriate state values when the user
+  // * chooses a payment group
   async paymentGroupInputHandler(e, { name, value }) {
     let paymentGroup = this.state.paymentGroups.find(
       (paymentGroup, index) => paymentGroup.name === value
@@ -52,20 +61,15 @@ class AddFeesToSessionPage extends Component {
     // this.inputHandler(e, { name, value }, 'formData');
   }
 
-  async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
-    this.setState({ paymentGroups });
-  }
-
   async onSubmit(e) {
     e.preventDefault();
 
-    // * Find all students in a session by searching the attendance
-    // * Model by the input date value
+    // Find all students in a session by searching the attendance
+    // Model by the input date value
     let date = new Date(this.state.formData.sessionDateTime);
 
-    // * check wether or not to add the fees to only the students
-    // * that attended the session according to the checkbox's value
+    // check wether or not to add the fees to only the students
+    // that attended the session according to the checkbox's value
     let sessionAttendanceRecords;
     if (this.state.formData.attendantsOnly) {
       sessionAttendanceRecords = await Attendance.findAll({
@@ -77,13 +81,13 @@ class AddFeesToSessionPage extends Component {
       });
     }
 
-    // * Extract all the student IDs into an array
+    // Extract all the student IDs into an array
     let sessionStudentsIds = sessionAttendanceRecords.map(
       (session, index) => session.studentId
     );
 
-    // * Map all the student IDs into objects to be created in the DB
-    // * should include: studentId, name(of payment), value
+    // Map all the student IDs into objects to be created in the DB
+    // should include: studentId, name(of payment), value
     // * optional?: dueDate, paymentGroupId
     // TODO?: add the optional data in
 
@@ -97,7 +101,7 @@ class AddFeesToSessionPage extends Component {
       }
     );
 
-    // * Bulk create into the studentFees table using the created arr
+    // Bulk create into the studentFees table using the created arr
     StudentFees.bulkCreate(studentFeesBulkCreateArray);
   }
 

@@ -1,4 +1,4 @@
-// TODO: refactro this 140+-line container
+// TODO: refactro this 140+-line container.
 // TODO: if payment happens on admission, update
 // TODO: income, and create a payment record ?
 import React, { Component } from 'react';
@@ -38,9 +38,19 @@ class AdmissionPage extends Component {
     sections: [],
     sectionOptions: []
   };
-
+  
   inputHandler = genericInputHandler;
+  
+  // * Fetches the last ID in the student table
+  async componentDidMount() {
+    // get the last id in the db
+    let lastID = await getLastId(sequelize, 'students');
+    let admissionDataCopy = { ...this.state.admissionData };
+    admissionDataCopy.nextStudentID = lastID + 1;
+    this.setState({ admissionData: admissionDataCopy });
+  }
 
+  // * Finds all sections using the class value the user chose
   async classInputHandler(e, { name, value }, stateKey) {
     let foundSections = await Section.findAll({
       where: {
@@ -68,6 +78,8 @@ class AdmissionPage extends Component {
     this.inputHandler(e, { name, value }, stateKey);
   }
 
+  // * Finds and calculates the default fees for the section
+  // * by using the section chosen by the user
   async sectionInputHandler(e, { name, value }, stateKey) {
     let section = this.state.sections.find(
       (section, index) => section.name === value
@@ -85,15 +97,9 @@ class AdmissionPage extends Component {
     this.inputHandler(e, { name, value }, stateKey);
   }
 
-  // executes only for the initial render
-  async componentDidMount() {
-    // get the last id in the db
-    let lastID = await getLastId(sequelize, 'students');
-    let admissionDataCopy = { ...this.state.admissionData };
-    admissionDataCopy.nextStudentID = lastID + 1;
-    this.setState({ admissionData: admissionDataCopy });
-  }
 
+  // * Creates the student record, adds fees to the student,
+  // * updates the value of the last ID.
   async onSubmit(e) {
     e.preventDefault();
     let admissionDataCopy = { ...this.state.admissionData };

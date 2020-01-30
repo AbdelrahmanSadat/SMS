@@ -1,9 +1,12 @@
+// * Starts sessions and records attendance
+
+// TODO: warnings
+
 import React, { Component } from 'react';
 import {
   Section,
   Student,
   Attendance as AttendanceModel,
-  StudentWarning,
   Warning
 } from '../utils/database/index';
 import Attendance from '../components/Attendance/Attendance';
@@ -35,9 +38,9 @@ class AttendancePage extends Component {
 
   inputHandler = genericInputHandler;
 
-  // handler for class dropdown change
-  // fetches sections with that class for the neighboring
-  // dropdown and creates options for them
+  // * handler for class dropdown change
+  // * fetches sections with that class for the neighboring
+  // * dropdown and creates options for them
   async classInputHandler(e, { name, value }, stateKey) {
     let foundSections = await Section.findAll({
       where: {
@@ -65,9 +68,9 @@ class AttendancePage extends Component {
     });
   }
 
-  // handler for start session button
-  // changes state to reflect ongoing session
-  // modifies the section, and creates attendance records
+  // * Handler for start session button
+  // * Changes state to reflect ongoing session
+  // * modifies the section, and creates attendance records
   async startSessionHandler(e) {
     // e.preventDefault();
     let openSection = this.state.sections.find(
@@ -77,7 +80,6 @@ class AttendancePage extends Component {
       openSection: openSection,
       sessionOn: true
     });
-    console.log(this.state);
     // increment section counter
     openSection.counter += this.state.formData.increment;
     openSection.save();
@@ -89,7 +91,6 @@ class AttendancePage extends Component {
         sectionId: openSection.id
       }
     });
-    console.log(assignedStudents);
     // TODO: bug: no assigned students are found 
     // (because the student's section reference is null?)
     let attendanceBulkCreateArray = assignedStudents.map((student, index) => {
@@ -105,7 +106,7 @@ class AttendancePage extends Component {
     );
   }
 
-  // handler for end session button
+  //* Closes the open session
   endSessionHandler(e) {
     this.setState({
       sessionOn: false,
@@ -113,12 +114,12 @@ class AttendancePage extends Component {
     });
   }
 
-  // handler for id form submitting
-  // finds student with id (currently using id not barcode id)
-  // checks if it's their assigned section
-  // checks for warnings
-  // takes student's attendance
-  // * TODO: use barcode ID
+  // * handler for id form submitting
+  // * finds student with id (currently using id not barcode id)
+  // * checks if it's their assigned section
+  // * checks for warnings
+  // * takes student's attendance
+  // *TODO: use barcode ID
   async idSubmitHandler(e) {
     e.preventDefault();
     // TODO?: can keep all the created attendance records (in state?) and
@@ -131,7 +132,6 @@ class AttendancePage extends Component {
       },
       include: [Warning]
     });
-    console.log(foundStudent);
     // check if the open section is the same as that student's assigned section
     if (foundStudent.sectionId != this.state.openSection.id) {
       // TODO: warning

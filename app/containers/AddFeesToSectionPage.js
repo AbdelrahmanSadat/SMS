@@ -1,15 +1,16 @@
+// * Adds fees to all students in a certain section
+// * The fees can be chosen using a predefined payment group,
+// * or using a hard value provided by the user
+
 import React, { Component } from 'react';
 import AddFeesToSection from '../components/Payment/AddFees/AddFeesToSection';
 import genericInputHandler from '../utils/misc/genericInputHandler';
-import { Student, StudentFees, PaymentGroup, Section } from '../utils/database/index';
-
-// !Payment group reference in student fees is a bad idea
-// ! because i believe there can't be the same combination
-// ! of joined tables refs(e.g studentId:1, pgID:2 more than once)
-// ! which doesn't fit with our use case
-// ? I believe this issue has been resolved. Make sure, then remove
-// ? this comment
-
+import {
+  Student,
+  StudentFees,
+  PaymentGroup,
+  Section
+} from '../utils/database/index';
 
 class AddFeesToSectionPage extends Component {
   constructor(props) {
@@ -23,29 +24,47 @@ class AddFeesToSectionPage extends Component {
       paymentGroup: '',
       value: '',
       name: '',
-      sectionName:'',
+      sectionName: '',
       // payment group's id, not used currently
       id: null
     },
-    sectionOptions:[],
-    sections:[],
+    sectionOptions: [],
+    sections: [],
     paymentGroups: [],
     students: []
   };
 
   inputHandler = genericInputHandler;
 
+  // * Finds all the payment groups, and all the sections
+  // * in order to display them as input options to the user.
+  async componentDidMount() {
+    let paymentGroups = await PaymentGroup.findAll({});
+    let foundSections = await Section.findAll({});
+    // Small inconsistency where the section options are
+    // created here, while PG options are created elsewhere
+    let sectionOptions = foundSections.map((section, index) => ({
+      // ???stateKey???
+      id: section.id,
+      value: section.name,
+      text: section.name
+    }));
+    this.setState({ paymentGroups, sectionOptions, sections: foundSections });
+  }
+
+  // * Finds the section the user chose from the full list
+  // * of sections; And finds all students in that section
+  // * and saves them in the state
   async SectionInputHandler(e, { name, value }, stateKey) {
-    let section = this.state.sections.find((section) => (section.dataValues.name === value))
-    
+    let section = this.state.sections.find(
+      section => section.dataValues.name === value
+    );
+
     let foundStudents = await Student.findAll({
       where: {
         sectionId: section.dataValues.id
       }
     });
-    console.log('AYOOOOO');
-    console.log(section.dataValues.id);
-    console.log(foundStudents);
 
     this.setState({
       students: foundStudents
@@ -54,6 +73,8 @@ class AddFeesToSectionPage extends Component {
     this.inputHandler(e, { name, value }, stateKey);
   }
 
+  // * Changes the appropriate state values when the user
+  // * chooses a payment group
   async paymentGroupInputHandler(e, { name, value }) {
     let paymentGroup = this.state.paymentGroups.find(
       (paymentGroup, index) => paymentGroup.name === value
@@ -68,21 +89,9 @@ class AddFeesToSectionPage extends Component {
     // this.inputHandler(e, { name, value }, 'formData');
   }
 
-  async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
-    let foundSections = await Section.findAll({});
-    let sectionOptions = foundSections.map((section, index) => ({
-      // ???stateKey???
-      id: section.id,
-      value: section.name,
-      text: section.name
-    }));
-    this.setState({ paymentGroups, sectionOptions, sections: foundSections });
-  }
-
+  // * Adds the fee record to the db
   async onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
 
     // array holding rows to create
     let createObjects = this.state.students.map((student, index) => {
@@ -121,7 +130,9 @@ class AddFeesToSectionPage extends Component {
           onSubmit={e => this.onSubmit(e)}
           paymentGroupOptions={paymentGroupOptions}
           inputHandler={(e, d) => this.inputHandler(e, d, 'formData')}
-          sectionInputHandler={(e, d) => this.SectionInputHandler(e, d, 'formData')}
+          sectionInputHandler={(e, d) =>
+            this.SectionInputHandler(e, d, 'formData')
+          }
           paymentGroupInputHandler={(e, d) =>
             this.paymentGroupInputHandler(e, d, 'formData')
           }
