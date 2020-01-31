@@ -1,0 +1,22 @@
+[
+    {
+        "key": "1",
+        "text": "Student",
+        "value": "student"
+    },
+    {
+        "key": "2",
+        "text": "Class",
+        "value": "class"
+    },
+    {
+        "key": "3",
+        "text": "Section",
+        "value": "section"
+    },
+    {
+        "key": "4",
+        "text": "Session",
+        "value": "session"
+    }
+]
