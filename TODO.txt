@@ -1,20 +1,20 @@
-- Adding fees to session (running session, expired session(DONE),...)
-  (using the attendance model, and searching by date if needed)
-  Adding to a running session is should be from the attendance comp-
-  onent Adding to an expired session should be done by date and time
-  (so date and time should probably be unique for each session)
-  Also, the option of wether to add to all students assigned 
-  to a session, or only the ones that attended
 
-- Merging Fee-Addition components into one component (secondary)
+Market: 
+Testing (Edge Cases)
+Demo
+Brand Identity( Name, Logo, Business Card, Facebook Page )
+Pricing
 
-- Payment (check if fully implemented or not)(implemented)
 
-- Student Profiles (To view and edit each student's data)
+Additional Features:
+HR management, Certificates, ID, SMS,Multi-User Authentication, Arabic,
+Promotions, Update, Dashboard, Help File
 
-- Documenting the app
-- Documenting the db may not be necessary at the moment
-- Documenting the code itself seems important
+Important Features:
+Home Page, Income, Expenses, Excel Import/Export, Printing, Profile, Filters, Reports, BarCode
 
-- Test the app to find out what's working properly and
-  what isn't (implement routing first to make it less painful)
+
+Minimum Features:
+
+Reservation - Attendance - Payment  - Exams
+Packaging (Setup Process, Licensing {Verification Code / MacAddress Identifier} - Security)

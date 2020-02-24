@@ -1,4 +1,6 @@
 // * Database setup, connection, and configuration
+// TODO: Refactor this file. check:
+// TODO: https://github.com/sequelize/express-example/blob/master/models/index.js
 
 // TODO: db path (file should be outside src?)
 // TODO: db seeding
