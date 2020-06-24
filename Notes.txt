@@ -1,31 +1,12 @@
-- Test the app to find out what's working properly and
-  what isn't
-  
-- Behaviour: currently, restarting the app or doing a complete refresh
-removes the id of the sections and any id references to those sections
-(possibly related to the full re-syncing operation of the DB on startup)
-(might be due to updated constraints not working with older data so it
-gets omitted)
-(fixed???)
+- Issue with the warning models and student.belongsToMany in db.js
+- Unique Validation error in dev
+- student.belongsToMany passed non sequelize.model subclass
 
-- Behaviour: Adding fees does not work properly at the moment (fixed???)
 
-- Performance: Issue when closing the app, at least in dev
-  apears to leave running processes in the background sometimes???
-  
-- Consider splitting containers into two levels of containers
-  one that handles the communication with the DB and the other
-  handles the UI logic
 
-- Consider adding an additional layer to the project's 
-  architecture to contain the business logic and communicate
-  with the Model layer.
-  This layer could be considered as an API, so it should be
-  well documented for any possible users who might interact
-  with it.
-  Consider also checking other projects for how they implement
-  API functionality (like Winds application on github).
-  On a quick glance of their API, one of the things that
-  caught my eye is that functions can throw errors to be
-  handled by the user of the API in case they misuse it.
-  
+- On win the app is installed (using the .exe setup) in
+  users/{user}/AppData/local/Programs
+- The following paths might also contain something related to the app
+  (it might also be trash from previous testing with other frameworks)
+  users/{user}/AppData/local
+  users/{user}/AppData/Roaming ???
