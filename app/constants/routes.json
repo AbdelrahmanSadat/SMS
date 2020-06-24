@@ -6,18 +6,26 @@
   "Expenses": "/expenses",
   "INCOME": "/income",
   "LOGIN": "/login",
-  "PAYMENT": "/payment",
-
+  
+  "ADDFEESTOCLASS": "/addFees/class",
+  "ADDFEESTOSECTION": "/addFees/section",
+  "ADDFEESTOSESSION": "/addFees/session",
+  "ADDFEESTOSTUDENT": "/addFees/student",
+  
   "ADMISSION": "/admission",
   "ATTENDANCE": "/attendance",
+  
   "CREATEEXAM": "/exams/create",
   "EVALUATEEXAM": "/exams/evaluate",
-  "ADDPAYMENT": "/payment/add",
+  
+  "PAYMENT": "/payment",
   "ADDPAYMENTGROUP": "/paymentGroup/add",
-  "PROFILE": "/profile",
-  "ADDSECTION": "/section/add",
-  "SESSION": "/session",
 
+  "PROFILE": "/profile",
+
+  "ADDSECTION": "/section/add",
+
+  "STARTSESSION": "/session/start",
 
   "COUNTER": "/counter"
 }

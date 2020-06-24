@@ -6,6 +6,7 @@ type Props = {
   children: React.Node
 };
 
+// TODO?: can add layout here
 export default class App extends React.Component<Props> {
   props: Props;
 
