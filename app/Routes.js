@@ -7,6 +7,7 @@ import routes from './constants/routes';
 //* component
 
 import App from './containers/App';
+import HomePage from './containers/HomePage';
 import AdmissionPage from './containers/AdmissionPage';
 import AttendancePage from './containers/AttendancePage';
 import WarningPage from './containers/WarningPage';
@@ -32,7 +33,7 @@ import DateLayerPage from './containers/DateLayerPage';
 export default () => (
   <App>
     <Switch>
-      <Route path={routes.HOME} component={ProfilePage} />
+      <Route path={routes.HOME} component={HomePage} />
       {/* <Route path={routes.ADMISSIONS} component={AdmissionPage} />
       <Route path={routes.ATTENDANCE} component={AttendancePage} />
       <Route path={routes.CREATEEXAM} component={CreateExamPage} />
