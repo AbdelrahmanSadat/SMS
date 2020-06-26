@@ -4,44 +4,56 @@
 
 import path from 'path';
 import webpack from 'webpack';
-import { dependencies } from '../package.json';
-
+import { dependencies as externals } from '../app/package.json';
+// adding unused sequelize dialects, and removing sqlite3
+// since it is a used dialect
+let modifiedExternals = [...Object.keys(externals || {})]
+  .concat([
+    'pg',
+    'tedious',
+    'pg-hstore',
+    // 'sqlite3',
+    // 'sequelize',
+  ])
+  .filter((external) => external != 'sqlite3');
+  console.log(modifiedExternals)
 export default {
-  externals: [...Object.keys(dependencies || {})],
+  externals: modifiedExternals,
 
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true
-          }
-        }
-      }
-    ]
+            cacheDirectory: true,
+          },
+        },
+      },
+    ],
   },
 
   output: {
     path: path.join(__dirname, '..', 'app'),
     // https://github.com/webpack/webpack/issues/1114
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
 
   /**
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    modules: [path.join(__dirname, '..', 'app'), 'node_modules'],
   },
 
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production'
+      NODE_ENV: 'production',
     }),
 
-    new webpack.NamedModulesPlugin()
-  ]
+    new webpack.NamedModulesPlugin(),
+  ],
 };
