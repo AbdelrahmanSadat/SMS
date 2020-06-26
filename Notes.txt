@@ -10,3 +10,25 @@
   (it might also be trash from previous testing with other frameworks)
   users/{user}/AppData/local
   users/{user}/AppData/Roaming ???
+
+- Sequelize error thingy (bookmarked), add to resolved issues
+
+- Should probably .ignore the db file
+
+- Consider removing all unneeded deps from the boilerplate
+
+- HOW TO INSTALL:
+1. Clone/Download electron-react-boilerplate
+2. Yarn install (make sure electron is less than 9.0)
+3. Make sure to install sequelize and sqlite3 in the app dir
+4. In the webpack.config file, add 'pg','tedious','pg-hstore'
+    to the externals array (hotfix hack thingy for sequelize)
+4. Fix the unterminated comment in WrapperLodash
+5. Add the semantic-ui-css missing theme if its's missing
+  (Just copy it from their repo or a previous project)
+6. Yarn postinstall (rebuilds and shit)
+
+
+
+- Current Electron Version: 9.0.4 (9.0 had breaking changes)
+- Desired Version 8.3.4 (Before the native module context thing)
