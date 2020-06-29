@@ -7,6 +7,7 @@ import webpack from 'webpack';
 import { dependencies as externals } from '../app/package.json';
 // adding unused sequelize dialects, and removing sqlite3
 // since it is a used dialect
+// TODO: check if you actually need to remove sqlite3 from externals
 let modifiedExternals = [...Object.keys(externals || {})]
   .concat([
     'pg',
@@ -16,7 +17,7 @@ let modifiedExternals = [...Object.keys(externals || {})]
     // 'sequelize',
   ])
   .filter((external) => external != 'sqlite3');
-  console.log(modifiedExternals)
+  // console.log(modifiedExternals)
 export default {
   externals: modifiedExternals,
 

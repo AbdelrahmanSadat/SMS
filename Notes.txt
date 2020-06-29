@@ -32,3 +32,11 @@
 
 - Current Electron Version: 9.0.4 (9.0 had breaking changes)
 - Desired Version 8.3.4 (Before the native module context thing)
+
+
+- Adding a dependency (prettier 1.19.1) to a dependency 
+  (@stardust-ui/docs-component) because it conflicts with
+  the version of prettier used in the upper directory
+- Scratch that. Added prettier 1.19.1 to the upper dir
+- Scratch that. Didn't need it. Removed entirely and reverted
+  prettier to its original version
