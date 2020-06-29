@@ -27,5 +27,7 @@
 
   "STARTSESSION": "/session/start",
 
-  "COUNTER": "/counter"
+  "COUNTER": "/counter",
+
+  "CATCHALL": "/*"
 }
