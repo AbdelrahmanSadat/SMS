@@ -2,8 +2,13 @@
 // TODO: Refactor this file. check:
 // TODO: https://github.com/sequelize/express-example/blob/master/models/index.js
 
+// TODO: Utilize the config file for the DB, and change the DB config
+// TODO: according to environment (dev, test, prod) (check url above)
+
 // TODO: db path (file should be outside src?)
-// TODO: db seeding
+// * Currently the path is relative to where this code runs
+// * Which is not preferrable, especially for production purposes.
+
 
 const { Sequelize } = require('sequelize');
 
@@ -21,9 +26,9 @@ let user = require('../../models/user');
 let warning = require('../../models/warning');
 
 // * A function that creates a db connection, defines the
-// * models on that db, and syncs the models to the db, I think.
-// * params: a path to the db (to either create one or connect
-// * to an existing db)
+// *? models on that db, and syncs the models to the db, I think.
+// * params: a path to the db (to either create if it doesn't
+// * exist or to connect to an existing db)
 // * returns all the models and the created sequelize connection
 module.exports = function(path) {
   // If the database file didn't exist before,
@@ -31,7 +36,8 @@ module.exports = function(path) {
   let sequelize = new Sequelize({
     // creates a connection th the db
     dialect: 'sqlite',
-    storage: path
+    storage: path,
+    logging: false
   });
 
   // ? Defines models on the db we connected to
@@ -115,7 +121,7 @@ module.exports = function(path) {
         // Setting force to "true" drops the database on changes
         // to the models
         // TODO: production: remove alter: true
-        .sync({ alter: true })
+        .sync({ alter: false })
         .then(() => console.log('Synced'))
         .catch(error => {
           console.log(error);
@@ -129,6 +135,8 @@ module.exports = function(path) {
   // exports the models so that the can be used from anywhere else
   // given that a connection has been established earlier
   // ? this may not be the optimal way to implement this
+  // TODO?: Log the sequelize object alone. It contains all the
+  // TODO?: models already, so exporting them again is redundant
   return {
     sequelize,
     Attendance,

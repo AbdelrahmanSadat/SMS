@@ -1,71 +1,47 @@
-// ! Currently out of date and out of use
+// * Uses the sequelize-fixtures lib to add sample data to the DB
+// * Imports models from the db setup & config file
 
+// TODO: Should probably await the completion of the "alter" process
+// TODO: or any other connection operations before running this bit
+// TODO: (or any other async thing happening in db setup file)
 
-let faker = require("faker");
-const sequelize = require("../db");
-const User = require("../../../src/models/user")(sequelize);
-const Student = require("../../../src/models/student")(sequelize);
-const Section = require("../../../src/models/section")(sequelize);
+const sequelizeFixtures = require('sequelize-fixtures');
 
-Section.hasMany(Student);
+const path = require('path');
 
-// TODO: add any kind of error handling
-// TODO: allow options arguments for customization
-// TODO: set some static fields or use seeds or both
-// TODO: make it asynchronous ?
-// TODO: modularize it? to seed each model separately?
-let seed = function() {
-  for (let i = 0; i < 10; i++) {
-    createUser();
-    createStudent();
-    createSection();
-  }
-};
+const { sequelize } = require(path.join(
+  __dirname,
+  '../../../app/utils/database'
+));
 
-module.exports = seed;
+const { models } = sequelize;
 
-let createUser = function() {
-  User.create({
-    username: faker.name.findName(),
-    age: faker.random.ageNumber(),
-    authorizationLevel: 2,
-    hashedPassword: faker.random.alphaNumeric(),
-    salt: faker.random.alphaNumeric(),
-    // not actually a field just testing if it'll
-    // get saved (it doesn't)
-    redHerring: faker.random.alphaNumeric()
-  });
-};
+// TODO: cleanup this callback mess
+// * The order of these operations seems to be very important.
+// * Make sure to maintain it whenever you edit it
+sequelizeFixtures.loadFile(makePath('../fixtures/section.js'), models).then(function () {
+  sequelizeFixtures
+    .loadFile(makePath('../fixtures/student.js'), models)
+    .then(function () {
+      sequelizeFixtures
+        .loadFile(makePath('../fixtures/paymentGroup.js'), models)
+        .then(function () {
+          sequelizeFixtures
+            .loadFile(makePath('../fixtures/Exam.js'), models)
+            .then(function () {
+              sequelizeFixtures
+                .loadFile(makePath('../fixtures/warning.js'), models)
+                .then(function () {
+                  sequelizeFixtures
+                    .loadFile(makePath('../fixtures/*.js'), models)
+                    .then(function () {});
+                });
+            });
+        });
+    });
+});
 
-let createStudent = function() {
-  Student.create({
-    name: faker.name.findName(),
-    email: faker.internet.email(),
-    phoneNumber: faker.phone.phoneNumber(),
-    parentName: faker.name.findName(),
-    parentPhoneNumber: faker.phone.phoneNumber(),
-    address: faker.address.streetAddress(),
-    miscNotes: faker.company.catchPhrase(),
-    school: faker.company.companyName(),
-    // TODO:
-    class: "1st"
-  });
-};
-
-let createSection = function(){
-  Section.create({
-    name: faker.random.alphaNumeric(),
-    session: faker.hacker.noun(),
-    semester: "first",
-    class: "1st",
-    fees: faker.finance.amount(),
-    startingDate: faker.date.past(),
-    endingDate: faker.date.future(),
-    counter: faker.random.number()
-  })
+// TODO: move to utils
+function makePath(relativePath) {
+  return path.join(__dirname, relativePath);
 }
-
-// TODO: move or remove
-faker.random.ageNumber = function() {
-  return Math.floor(Math.random() * 100);
-};

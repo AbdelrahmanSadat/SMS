@@ -4,6 +4,7 @@
   "version": "1.2.0",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "scripts": {
+    "seed": "node utils/database/seeder/seed.js",
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
@@ -292,6 +293,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "sequelize": "^6.1.1",
+    "sequelize-fixtures": "^1.2.0",
     "source-map-support": "^0.5.19"
   },
   "devEngines": {
