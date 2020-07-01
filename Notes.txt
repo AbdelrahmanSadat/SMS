@@ -29,14 +29,23 @@
 6. Yarn postinstall (rebuilds and shit)
 
 
-
-- Current Electron Version: 9.0.4 (9.0 had breaking changes)
-- Desired Version 8.3.4 (Before the native module context thing)
-
-
-- Adding a dependency (prettier 1.19.1) to a dependency 
-  (@stardust-ui/docs-component) because it conflicts with
-  the version of prettier used in the upper directory
-- Scratch that. Added prettier 1.19.1 to the upper dir
-- Scratch that. Didn't need it. Removed entirely and reverted
-  prettier to its original version
+- TESTING:
+  - Types of tests that are relevant to the app relevant
+    - Integration (How different pieces integrate together)
+    - E2E (testing of a complete application environment in a
+      situation that mimics real-world use)
+    - Regression (Testing an application as a whole for the 
+      modification in any module or functionality)
+    - Alpha (Testing an application as a whole for the 
+      modification in any module or functionality) manual or automated.
+    - Beta (Testing carried out by the customer). Some companies
+      release the whole product officially as Beta and leave it
+      like that(like some games do).
+    - Example Testing (includes the real-time scenario)
+    - GUI (How shit looks, done manually better than atuomatically)
+    - Happy path (Testing all the expected, desired scenarios)
+    - Negative (Testing for cases known to be invalid/undesired)
+    - Install/Uninstall Testing
+    - Recovery Testing (How well the app recovers from a crash)
+    
+      
