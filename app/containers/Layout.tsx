@@ -128,7 +128,7 @@ class Layout extends Component {
         </Sidebar>
 
         <Sidebar.Pusher>
-          <Segment basic>{this.props.children}</Segment>
+          {this.props.children}
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );
