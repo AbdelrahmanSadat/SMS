@@ -2,10 +2,10 @@
 // * Finds the student using their id.
 
 import React, { Component } from 'react';
-import { cloneDeep, merge } from 'lodash';
+import { cloneDeep } from 'lodash';
 import Profile from '../components/Profile/Profile';
 import genericInputHandler from '../utils/misc/genericInputHandler';
-import { Student, Section } from '../utils/database/index';
+import { findStudent, updateStudent } from '../utils/api/db/profilePage';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class ProfilePage extends Component {
 
   state = {
     studentSearchFormData: {
-      id: ''
+      id: '',
     },
     // * contains the student data, which can be edited
     studentEditFormData: {
@@ -38,9 +38,9 @@ class ProfilePage extends Component {
       attendance: [], // ? not sure to display this here or not
       // * controlled by a checkbox, enables/disables editing
       // * the currently fetched student
-      allowEditing: false
+      allowEditing: false,
     },
-    student: {}
+    student: {},
   };
 
   inputHandler = genericInputHandler;
@@ -49,49 +49,26 @@ class ProfilePage extends Component {
   async studentSearchOnSubmit(e) {
     e.preventDefault();
 
-    let foundStudent = await Student.findOne({
-      where: { id: this.state.studentSearchFormData.id },
-      include: [{ model: Section }]
-    });
+    // the "+" converts id string into a number
+    let foundStudent = await findStudent(+this.state.studentSearchFormData.id);
 
     this.setState({
-      student: foundStudent
-    });
-
-    this.setState({
+      student: foundStudent,
       studentEditFormData: {
         ...foundStudent.dataValues,
-        sectionName: foundStudent.section.name
-      }
+        sectionName: foundStudent.section.name,
+      },
     });
-
-    console.log(foundStudent.dataValues);
   }
 
   // * Submits the newly edited student data
   async studentEditOnSubmit(e) {
     e.preventDefault();
-
     let studentCopy = cloneDeep(this.state.student);
-
-    if (
-      studentCopy.section.name != this.state.studentEditFormData.sectionName
-    ) {
-      let newSection = await Section.findOne({
-        where: {
-          name: this.state.studentEditFormData.sectionName
-        }
-      });
-      // ? double negative?
-      // ? should check if a section with that name was found
-      if (!!newSection) studentCopy.sectionId = newSection.id;
-      // otherwise, display that now section with that name exists
-    }
-
-    // merges the new values with the student model
-    merge(studentCopy, studentCopy, this.state.studentEditFormData);
-    console.log(studentCopy);
-    let savedStudent = await studentCopy.save();
+    let savedStudent = await updateStudent(
+      studentCopy,
+      this.state.studentEditFormData
+    );
 
     this.setState({ student: savedStudent });
   }
@@ -104,12 +81,12 @@ class ProfilePage extends Component {
           studentSearchInputHandler={(e, d) =>
             this.inputHandler(e, d, 'studentSearchFormData')
           }
-          studentSearchOnSubmit={e => this.studentSearchOnSubmit(e)}
+          studentSearchOnSubmit={(e) => this.studentSearchOnSubmit(e)}
           studentEditFormData={this.state.studentEditFormData}
           studentEditInputHandler={(e, d) =>
             this.inputHandler(e, d, 'studentEditFormData')
           }
-          studentEditOnSubmit={e => this.studentEditOnSubmit(e)}
+          studentEditOnSubmit={(e) => this.studentEditOnSubmit(e)}
         />
       </div>
     );
