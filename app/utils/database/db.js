@@ -92,6 +92,8 @@ module.exports = function(path) {
   });
 
   // Joins Student and Exam through StudentExam
+  // TODO: each student should be evaluated for each exam once
+  // TODO: so "unique" should be true
   Student.belongsToMany(Exam, {
     through: StudentExam,
     unique: false

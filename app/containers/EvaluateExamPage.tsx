@@ -1,10 +1,8 @@
 // * Evaluates the exam
-
 import React, { Component } from 'react';
 import EvaluateExam from '../components/Exams/EvaluateExam/EvaluateExam';
 import genericInputHandler from '../utils/misc/genericInputHandler';
-import { Exam, StudentExam } from '../utils/database/index';
-import { Op } from 'sequelize';
+import { findExamsWithDate, createStudentExam } from '../utils/api/db/evaluateExamPage';
 
 class EvaluateExamPage extends Component {
   constructor(props) {
@@ -20,44 +18,30 @@ class EvaluateExamPage extends Component {
       // holds exam id
       exam: '',
       // takenOn: '',
-      score: 0
+      score: 0,
     },
     exams: [],
-    examOptions: []
+    examOptions: [],
   };
-
+  
   inputHandler = genericInputHandler;
-
+  
   // * Changes the set of exams to display in the exam input options
   // * The user selects a date, and all exams that were created
   // * with that date are shown.
   async dateInputHandler(e, { name, value }, stateKey) {
-    // Setting up a date-time range from the beginning of
-    // the day to its end to use in exam fetching by date
-    let startDate = new Date(value);
-    startDate.setHours(0);
-    startDate.setMinutes(0);
-    startDate = new Date(startDate.getTime() - 1000);
-    let endDate = new Date(value);
-    endDate.setHours(23);
-    endDate.setMinutes(59);
-
     // fetch exams with the date range (chosen day)
-    let foundExams = await Exam.findAll({
-      where: {
-        date: {
-          [Op.between]: [startDate, endDate]
-        }
-      }
-    });
-
+    // TODO!: Bug with date. Returns exams form one day earlier
+    // TODO!: (at least a +2 hr difference because of timezone)
+    let foundExams = await findExamsWithDate(value)
+    
     // create exam options
-
+    
     let examOptions = foundExams.map((exam, index) => {
       return {
         text: exam.dataValues.name,
         value: exam.dataValues.id,
-        key: index
+        key: index,
         // other???
       };
     });
@@ -67,7 +51,7 @@ class EvaluateExamPage extends Component {
     // put exam options in state
     let stateCopy = {
       ...this.state,
-      evaluationFormData: { ...this.state.evaluationFormData }
+      evaluationFormData: { ...this.state.evaluationFormData },
     };
     stateCopy.examOptions = examOptions;
     stateCopy.exams = foundExams;
@@ -80,15 +64,9 @@ class EvaluateExamPage extends Component {
     e.preventDefault();
     let formData = this.state.evaluationFormData;
     let exam = this.state.exams.find(
-      exam => (exam.dataValues.id = formData.exam)
+      (exam) => (exam.dataValues.id = formData.exam)
     );
-    let createdData = await StudentExam.create({
-      studentId: formData.id,
-      examId: formData.exam,
-      score: formData.score,
-      passing: formData.score >= exam.dataValues.minimum
-    });
-
+    let createdData = await createStudentExam(formData, exam)
   }
 
   render() {
@@ -100,7 +78,7 @@ class EvaluateExamPage extends Component {
             this.dateInputHandler(e, d, 'evaluationFormData')
           }
           evaluationFormData={this.state.evaluationFormData}
-          submitHandler={e => this.submitHandler(e)}
+          submitHandler={(e) => this.submitHandler(e)}
           examOptions={this.state.examOptions}
         />
       </div>
