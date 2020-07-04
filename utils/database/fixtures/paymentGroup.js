@@ -10,4 +10,15 @@ module.exports = [
       sectionId: 1,
     },
   },
+  {
+    model: 'paymentGroup',
+    data: {
+      id: 3,
+      name: 'PG3',
+      type: 'reservation',
+      value: 50,
+      allowedPeriod: 1,
+      sectionId: 1,
+    },
+  },
 ];

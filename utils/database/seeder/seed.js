@@ -5,7 +5,6 @@
 // TODO: or any other connection operations before running this bit
 // TODO: (or any other async thing happening in db setup file)
 
-
 const sequelizeFixtures = require('sequelize-fixtures');
 
 const path = require('path');
@@ -13,8 +12,8 @@ const path = require('path');
 const { sequelize } = require(path.join(
   __dirname,
   '../../../app/utils/database'
-  ));
-  
+));
+
 const { models } = sequelize;
 
 // TODO: cleanup this callback mess
@@ -25,27 +24,29 @@ const { models } = sequelize;
 // (since the reason i did this mess was to get rid of an error)
 // that was propaply caused by an overlook of the m2m relationships
 // I had and forgetting I had to handle them in fixture files.
-sequelizeFixtures.loadFile(makePath('../fixtures/section.js'), models).then(function () {
-  sequelizeFixtures
-  .loadFile(makePath('../fixtures/student.js'), models)
-    .then(function () {
-      sequelizeFixtures
-        .loadFile(makePath('../fixtures/paymentGroup.js'), models)
-        .then(function () {
-          sequelizeFixtures
-            .loadFile(makePath('../fixtures/Exam.js'), models)
-            .then(function () {
-              sequelizeFixtures
-                .loadFile(makePath('../fixtures/warning.js'), models)
-                .then(function () {
-                  sequelizeFixtures
-                    .loadFile(makePath('../fixtures/*.js'), models)
-                    .then(function () {});
-                });
-            });
-        });
-    });
-});
+sequelizeFixtures
+  .loadFile(makePath('../fixtures/section.js'), models)
+  .then(function () {
+    sequelizeFixtures
+      .loadFile(makePath('../fixtures/student.js'), models)
+      .then(function () {
+        sequelizeFixtures
+          .loadFile(makePath('../fixtures/paymentGroup.js'), models)
+          .then(function () {
+            sequelizeFixtures
+              .loadFile(makePath('../fixtures/exam.js'), models)
+              .then(function () {
+                sequelizeFixtures
+                  .loadFile(makePath('../fixtures/warning.js'), models)
+                  .then(function () {
+                    sequelizeFixtures
+                      .loadFile(makePath('../fixtures/*.js'), models)
+                      .then(function () {});
+                  });
+              });
+          });
+      });
+  });
 
 // TODO: move to utils
 function makePath(relativePath) {
