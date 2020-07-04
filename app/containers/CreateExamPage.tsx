@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import CreateExam from '../components/Exams/CreateExam/CreateExam';
 import genericInputHandler from '../utils/misc/genericInputHandler';
-import { Exam } from '../utils/database/';
+import { createExam } from '../utils/api/db/createExamPage';
 
 class CreateExamPage extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class CreateExamPage extends Component {
 
   async submitHandler(e) {
     e.preventDefault();
-    let createdExam = await Exam.create({ ...this.state.examFormData });
+    let createdExam = await createExam(this.state.examFormData );
   }
 
   render() {
