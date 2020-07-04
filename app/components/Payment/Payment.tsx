@@ -15,10 +15,6 @@ const Payment = props => (
       />
       <Button type="submit">Find</Button>
     </Form>
-    <p>ID: Fetched From DB</p>
-    <p>Name: Fetched From DB</p>
-    <p>Class: Fetched From DB</p>
-    <p>Section: Fetched From DB</p>
     <Table celled>
       <Table.Header>
         <Table.Row>
