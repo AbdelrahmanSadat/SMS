@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import AddSection from '../components/Section/AddSection';
-import { Section } from '../utils/database';
+import { createSection } from '../utils/api/db/addSectionPage';
 import genericInputHandler from '../utils/misc/genericInputHandler';
 import classOptions from '../constants/classOptions.json';
 
@@ -17,21 +17,21 @@ class AddSectionPage extends Component {
       class: '',
       sectionName: '',
       monthlyFees: '',
-      admissionFees: ''
+      admissionFees: '',
     },
-    classOptions
+    classOptions,
   };
 
   inputHandler = genericInputHandler;
 
   async onSubmit(e) {
     e.preventDefault();
-    let createdSeciton = await Section.create({
-      name: this.state.sectionData.sectionName,
-      class: this.state.sectionData.class,
-      defaultAdmissionFees: this.state.sectionData.admissionFees,
-      defaultMonthlyFees: this.state.sectionData.monthlyFees
-    });
+    let createdSeciton = await createSection(
+      this.state.sectionData.sectionName,
+      this.state.sectionData.class,
+      this.state.sectionData.admissionFees,
+      this.state.sectionData.monthlyFees
+    );
   }
 
   render() {
@@ -40,7 +40,7 @@ class AddSectionPage extends Component {
         <AddSection
           classes={this.state.classOptions}
           sectionData={this.state.sectionData}
-          onSubmit={event => this.onSubmit(event)}
+          onSubmit={(event) => this.onSubmit(event)}
           inputHandler={(e, d) => this.inputHandler(e, d, 'sectionData')}
         />
       </div>
