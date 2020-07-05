@@ -1,5 +1,5 @@
-// * Creates studentFees records given an appropriate object array
-// * studentId, value, name
+// * Creates studentFees records given an appropriate array of
+// * objects: studentId, value, name
 
 import { StudentFees } from '../../../database';
 

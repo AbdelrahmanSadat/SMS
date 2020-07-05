@@ -7,6 +7,7 @@ import AddFeesToClass from '../components/Payment/AddFees/AddFeesToClass';
 import genericInputHandler from '../utils/misc/genericInputHandler';
 import { Student, StudentFees, PaymentGroup } from '../utils/database/index';
 import classOptions from '../constants/classOptions.json';
+import { findAllPaymentGroups, findStudentsWithClassName, createStudentFees } from '../utils/api/db/addFeesToClass';
 
 class AddFeesToClassPage extends Component {
   constructor(props) {
@@ -35,18 +36,14 @@ class AddFeesToClassPage extends Component {
   // * (The user can always add a hard value instead of choosing
   // * a payment group)
   async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
+    let paymentGroups = await findAllPaymentGroups();
     this.setState({ paymentGroups });
   }
 
   // * When the user chooses a class, finds all students
   // * that belong to that class, then passes control to inpuHandler
   async classInputHandler(e, { name, value }, stateKey) {
-    let foundStudents = await Student.findAll({
-      where: {
-        class: value
-      }
-    });
+    let foundStudents = await findStudentsWithClassName(value);
 
     this.setState({
       students: foundStudents
@@ -89,7 +86,7 @@ class AddFeesToClassPage extends Component {
 
     // TODO: if there are no students, do an error thingy
     // TODO?: add reference to payment group (id)?
-    let createdStudentFees = await StudentFees.bulkCreate(createObjects);
+    let createdStudentFees = await createStudentFees(createObjects);
   }
 
   render() {
