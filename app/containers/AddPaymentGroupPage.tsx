@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import AddPaymentGroup from '../components/Payment/AddPaymentGroup/AddPaymentGroup';
-import { PaymentGroup } from '../utils/database/index.js';
+import { createPaymentGroup } from '../utils/api/db/addPaymentGroupPage';
 import genericInputHandler from '../utils/misc/genericInputHandler';
 
 class AddPaymentGroupPage extends Component {
@@ -13,17 +13,17 @@ class AddPaymentGroupPage extends Component {
   state = {
     paymentGroupData: {
       paymentName: '',
-      paymentValue: ''
-    }
+      paymentValue: '',
+    },
   };
 
   inputHandler = genericInputHandler;
 
   async onSubmit(e) {
     e.preventDefault();
-    let createdPaymentGroup = await PaymentGroup.create({
+    let createdPaymentGroup = await createPaymentGroup({
       name: this.state.paymentGroupData.paymentName,
-      value: this.state.paymentGroupData.paymentValue
+      value: this.state.paymentGroupData.paymentValue,
     });
   }
 
@@ -33,7 +33,7 @@ class AddPaymentGroupPage extends Component {
         <AddPaymentGroup
           paymentGroupData={this.state.paymentGroupData}
           inputHandler={(e, d) => this.inputHandler(e, d, 'paymentGroupData')}
-          onSubmit={event => this.onSubmit(event)}
+          onSubmit={(event) => this.onSubmit(event)}
         />
       </div>
     );
