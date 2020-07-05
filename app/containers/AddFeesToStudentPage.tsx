@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import AddFeesToStudent from '../components/Payment/AddFees/AddFeesToStudent';
 import genericInputHandler from '../utils/misc/genericInputHandler';
-import { Student, StudentFees, PaymentGroup } from '../utils/database/index';
+import { findAllPaymentGroups, createStudentFee } from '../utils/api/db/addFeesToStudentPage';
 
 
 class AddFeesToStudentPage extends Component {
@@ -31,7 +31,7 @@ class AddFeesToStudentPage extends Component {
   // * Finds all the payment groups in order to display
   // * them to the user as input options
   async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
+    let paymentGroups = await findAllPaymentGroups();
     this.setState({ paymentGroups });
   }
 
@@ -55,16 +55,10 @@ class AddFeesToStudentPage extends Component {
   // * Creates the fees to add to the student
   async onSubmit(e) {
     e.preventDefault();
-    let foundStudent = await Student.findOne({
-      where: { id: this.state.formData.studentId }
-    });
-    // TODO: if there's not student with this id, do an error
-    // TODO?: add reference to payment group (id)?
-    let createdFees = await StudentFees.create({
-      studentId: foundStudent.id,
-      // paymentGroupId: this.state.formData.id,
-      value: this.state.formData.value,
-      name: this.state.formData.name
+    let createdFees = await createStudentFee({
+      studentId: this.state.formData.studentId,
+      feeName: this.state.formData.name,
+      feeValue: this.state.formData.value
     });
   }
 
