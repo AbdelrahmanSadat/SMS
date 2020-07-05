@@ -11,11 +11,9 @@ import React, { Component } from 'react';
 import AddFeesToSession from '../components/Payment/AddFees/AddFeesToSession';
 import genericInputHandler from '../utils/misc/genericInputHandler';
 import {
-  Student,
-  StudentFees,
-  PaymentGroup,
-  Attendance
-} from '../utils/database/index';
+  findAllPaymentGroups,
+  addFeesToSession,
+} from '../utils/api/db/addFeesToSessionPage';
 
 class AddFeesToSessionPage extends Component {
   constructor(props) {
@@ -31,9 +29,9 @@ class AddFeesToSessionPage extends Component {
       name: '',
       attendantsOnly: false,
       // payment group's id, not used currently
-      id: null
+      id: null,
     },
-    paymentGroups: []
+    paymentGroups: [],
   };
 
   inputHandler = genericInputHandler;
@@ -41,7 +39,7 @@ class AddFeesToSessionPage extends Component {
   // * Fetches all the payment groups to display them as options
   // * to the user
   async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
+    let paymentGroups = await findAllPaymentGroups();
     this.setState({ paymentGroups });
   }
 
@@ -63,46 +61,12 @@ class AddFeesToSessionPage extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-
-    // Find all students in a session by searching the attendance
-    // Model by the input date value
-    let date = new Date(this.state.formData.sessionDateTime);
-
-    // check wether or not to add the fees to only the students
-    // that attended the session according to the checkbox's value
-    let sessionAttendanceRecords;
-    if (this.state.formData.attendantsOnly) {
-      sessionAttendanceRecords = await Attendance.findAll({
-        where: { date, attended: true }
-      });
-    } else {
-      sessionAttendanceRecords = await Attendance.findAll({
-        where: { date }
-      });
-    }
-
-    // Extract all the student IDs into an array
-    let sessionStudentsIds = sessionAttendanceRecords.map(
-      (session, index) => session.studentId
-    );
-
-    // Map all the student IDs into objects to be created in the DB
-    // should include: studentId, name(of payment), value
-    // * optional?: dueDate, paymentGroupId
-    // TODO?: add the optional data in
-
-    let studentFeesBulkCreateArray = sessionStudentsIds.map(
-      (studentId, index) => {
-        return {
-          studentId,
-          name: this.state.formData.name,
-          value: this.state.formData.value
-        };
-      }
-    );
-
-    // Bulk create into the studentFees table using the created arr
-    StudentFees.bulkCreate(studentFeesBulkCreateArray);
+    await addFeesToSession({
+      sessionDateTime: this.state.formData.sessionDateTime,
+      attendantsOnly: this.state.formData.attendantsOnly,
+      feeName: this.state.formData.name,
+      feeValue: this.state.formData.value,
+    });
   }
 
   render() {
@@ -113,7 +77,7 @@ class AddFeesToSessionPage extends Component {
           return {
             key: index,
             text: paymentGroup.name,
-            value: paymentGroup.name
+            value: paymentGroup.name,
           };
         }
       );
@@ -122,7 +86,7 @@ class AddFeesToSessionPage extends Component {
       <div>
         <AddFeesToSession
           formData={this.state.formData}
-          onSubmit={e => this.onSubmit(e)}
+          onSubmit={(e) => this.onSubmit(e)}
           paymentGroupOptions={paymentGroupOptions}
           inputHandler={(e, d) => this.inputHandler(e, d, 'formData')}
           paymentGroupInputHandler={(e, d) =>
