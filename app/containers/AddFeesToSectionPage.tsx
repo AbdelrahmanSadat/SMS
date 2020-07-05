@@ -6,11 +6,11 @@ import React, { Component } from 'react';
 import AddFeesToSection from '../components/Payment/AddFees/AddFeesToSection';
 import genericInputHandler from '../utils/misc/genericInputHandler';
 import {
-  Student,
-  StudentFees,
-  PaymentGroup,
-  Section
-} from '../utils/database/index';
+  findAllPaymentGroups,
+  findAllSections,
+  createStudentFees,
+  findStudentsWithSectionId
+} from '../utils/api/db/addFeesToSectionPage';
 
 class AddFeesToSectionPage extends Component {
   constructor(props) {
@@ -26,12 +26,12 @@ class AddFeesToSectionPage extends Component {
       name: '',
       sectionName: '',
       // payment group's id, not used currently
-      id: null
+      id: null,
     },
     sectionOptions: [],
     sections: [],
     paymentGroups: [],
-    students: []
+    students: [],
   };
 
   inputHandler = genericInputHandler;
@@ -39,15 +39,15 @@ class AddFeesToSectionPage extends Component {
   // * Finds all the payment groups, and all the sections
   // * in order to display them as input options to the user.
   async componentDidMount() {
-    let paymentGroups = await PaymentGroup.findAll({});
-    let foundSections = await Section.findAll({});
+    let paymentGroups = await findAllPaymentGroups();
+    let foundSections = await findAllSections();
     // Small inconsistency where the section options are
     // created here, while PG options are created elsewhere
     let sectionOptions = foundSections.map((section, index) => ({
       // ???stateKey???
       id: section.id,
       value: section.name,
-      text: section.name
+      text: section.name,
     }));
     this.setState({ paymentGroups, sectionOptions, sections: foundSections });
   }
@@ -57,17 +57,13 @@ class AddFeesToSectionPage extends Component {
   // * and saves them in the state
   async SectionInputHandler(e, { name, value }, stateKey) {
     let section = this.state.sections.find(
-      section => section.dataValues.name === value
+      (section) => section.dataValues.name === value
     );
 
-    let foundStudents = await Student.findAll({
-      where: {
-        sectionId: section.dataValues.id
-      }
-    });
+    let foundStudents = await findStudentsWithSectionId(+section.dataValues.id);
 
     this.setState({
-      students: foundStudents
+      students: foundStudents,
     });
 
     this.inputHandler(e, { name, value }, stateKey);
@@ -94,20 +90,15 @@ class AddFeesToSectionPage extends Component {
     e.preventDefault();
 
     // array holding rows to create
-    let createObjects = this.state.students.map((student, index) => {
+    let studentFeesData = this.state.students.map((student, index) => {
       return {
         studentId: student.dataValues.id,
         value: this.state.formData.value,
-        name: this.state.formData.name
+        name: this.state.formData.name,
       };
     });
 
-    // TODO: if there are no students, do an error thingy
-    // TODO?: add reference to payment group (id)?
-    let createdStudentFees = await StudentFees.bulkCreate(createObjects);
-
-    console.log(this.state);
-    // createdFees=null
+    createStudentFees(studentFeesData);
   }
 
   render() {
@@ -118,7 +109,7 @@ class AddFeesToSectionPage extends Component {
           return {
             key: index,
             text: paymentGroup.name,
-            value: paymentGroup.name
+            value: paymentGroup.name,
           };
         }
       );
@@ -127,7 +118,7 @@ class AddFeesToSectionPage extends Component {
       <div>
         <AddFeesToSection
           formData={this.state.formData}
-          onSubmit={e => this.onSubmit(e)}
+          onSubmit={(e) => this.onSubmit(e)}
           paymentGroupOptions={paymentGroupOptions}
           inputHandler={(e, d) => this.inputHandler(e, d, 'formData')}
           sectionInputHandler={(e, d) =>

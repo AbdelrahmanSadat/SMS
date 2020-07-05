@@ -1,7 +1,7 @@
-// * Creates fee records for students given 
+// * Creates fee records for students given an object with:
+// * attendantsOnly: Boolean, date: Date, fee name and value
 
 import { Attendance, StudentFees } from '../../../database';
-// * attendantsOnly: Boolean, date: Date, fee name and value
 export default async function ({attendantsOnly, sessionDateTime, feeName, feeValue}) {
     let date = new Date(sessionDateTime);    
     // check wether or not to add the fees to only the students
