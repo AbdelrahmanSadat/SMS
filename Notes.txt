@@ -49,3 +49,6 @@
     - Recovery Testing (How well the app recovers from a crash)
     
       
+- Refactoring:
+  Turn container files into directories that contain a util directory
+  that has a bunch of functions for the container's logic.

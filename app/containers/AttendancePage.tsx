@@ -4,11 +4,13 @@
 
 import React, { Component } from 'react';
 import {
-  Section,
-  Student,
-  Attendance as AttendanceModel,
-  Warning
-} from '../utils/database/index';
+  findSections,
+  incrementSectionCounter,
+  findStudentsWithSection,
+  findStudentWithId,
+  setAttendance,
+  attendanceBulkCreate,
+} from '../utils/api/db/attendancePage';
 import Attendance from '../components/Attendance/Attendance';
 import classOptions from '../constants/classOptions.json';
 import genericInputHandler from '../utils/misc/genericInputHandler';
@@ -27,13 +29,13 @@ class AttendancePage extends Component {
       section: '',
       class: '',
       increment: 1,
-      date: ''
+      date: '',
     },
     classOptions,
     sections: [],
     sectionOptions: [],
     sessionOn: false,
-    openSection: {}
+    openSection: {},
   };
 
   inputHandler = genericInputHandler;
@@ -42,11 +44,7 @@ class AttendancePage extends Component {
   // * fetches sections with that class for the neighboring
   // * dropdown and creates options for them
   async classInputHandler(e, { name, value }, stateKey) {
-    let foundSections = await Section.findAll({
-      where: {
-        class: value
-      }
-    });
+    let foundSections = await findSections(value);
 
     // mapping the section model returned from the database
     // into a useful prop for select display
@@ -54,7 +52,7 @@ class AttendancePage extends Component {
     if (foundSections.length > 0) {
       sectionOptions = foundSections.map((section, index) => ({
         value: section.id,
-        text: section.name
+        text: section.name,
       }));
     }
 
@@ -64,7 +62,7 @@ class AttendancePage extends Component {
     this.setState({
       ...stateCopy,
       sections: foundSections,
-      sectionOptions
+      sectionOptions,
     });
   }
 
@@ -74,34 +72,29 @@ class AttendancePage extends Component {
   async startSessionHandler(e) {
     // e.preventDefault();
     let openSection = this.state.sections.find(
-      section => section.id == this.state.formData.section
+      (section) => section.id == this.state.formData.section
     );
     await this.setState({
       openSection: openSection,
-      sessionOn: true
+      sessionOn: true,
     });
     // increment section counter
-    openSection.counter += this.state.formData.increment;
-    openSection.save();
-    // TODO: handler counter reaching max, auto add fees
+    incrementSectionCounter(openSection, this.state.formData.increment);
+    // TODO: handler counter reaching max, auto add fees (db model)
     //? could be handled from DB models
     // TODO: find all students assigned to section
-    let assignedStudents = await Student.findAll({
-      where: {
-        sectionId: openSection.id
-      }
-    });
-    // TODO: bug: no assigned students are found 
+    let assignedStudents = await findStudentsWithSection(openSection);
+    // TODO: bug: no assigned students are found
     // (because the student's section reference is null?)
     let attendanceBulkCreateArray = assignedStudents.map((student, index) => {
       return {
         studentId: student.id,
         // TODO: bug?: sectionID is null
         sectionId: openSection.id,
-        date: this.state.formData.date
+        date: this.state.formData.date,
       };
     });
-    let createdAttendances = await AttendanceModel.bulkCreate(
+    let createdAttendances = await attendanceBulkCreate(
       attendanceBulkCreateArray
     );
   }
@@ -110,7 +103,7 @@ class AttendancePage extends Component {
   endSessionHandler(e) {
     this.setState({
       sessionOn: false,
-      openSection: {}
+      openSection: {},
     });
   }
 
@@ -126,12 +119,7 @@ class AttendancePage extends Component {
     // ? update them as needed whenever a student attends
     // ? instead of fetching a student and searching attendance every time
     // take the id, find a student who has it
-    let foundStudent = await Student.findOne({
-      where: {
-        id: this.state.formData.id
-      },
-      include: [Warning]
-    });
+    let foundStudent = await findStudentWithId(+this.state.formData.id);
     // check if the open section is the same as that student's assigned section
     if (foundStudent.sectionId != this.state.openSection.id) {
       // TODO: warning
@@ -145,18 +133,14 @@ class AttendancePage extends Component {
       console.log(foundStudent.warnings);
     }
     // change to attended
-    let attendanceRecord = await AttendanceModel.findOne({
-      where: {
-        studentId: foundStudent.id,
-        sectionId: this.state.openSection.id,
-        date: this.state.formData.date
-      }
-    });
-    attendanceRecord.attended = true;
-    attendanceRecord.save().then(() => console.log('updated record'));
+    let attendanceRecord = await setAttendance(
+      +foundStudent.id,
+      +this.state.openSection.id,
+      this.state.formData.date
+    );
     // clear id field for next student
     this.setState({
-      formData: { id: '' }
+      formData: { id: '' },
     });
   }
 
@@ -166,9 +150,9 @@ class AttendancePage extends Component {
         <Attendance
           inputHandler={(e, d) => this.inputHandler(e, d, 'formData')}
           classInputHandler={(e, d) => this.classInputHandler(e, d, 'formData')}
-          startSessionHandler={e => this.startSessionHandler(e)}
-          endSessionHandler={e => this.endSessionHandler(e)}
-          idSubmitHandler={e => this.idSubmitHandler(e)}
+          startSessionHandler={(e) => this.startSessionHandler(e)}
+          endSessionHandler={(e) => this.endSessionHandler(e)}
+          idSubmitHandler={(e) => this.idSubmitHandler(e)}
           formData={this.state.formData}
           classOptions={this.state.classOptions}
           sectionOptions={this.state.sectionOptions}
