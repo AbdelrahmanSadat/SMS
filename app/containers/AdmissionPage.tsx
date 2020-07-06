@@ -3,15 +3,13 @@
 // TODO: income, and create a payment record ?
 import React, { Component } from 'react';
 import Admission from '../components/Admission/Admission';
-import {
-  Student,
-  Section,
-  StudentFees,
-  sequelize
-} from '../utils/database/index';
 import genericInputHandler from '../utils/misc/genericInputHandler';
-import getLastId from '../utils/misc/getLastID';
 import classOptions from '../constants/classOptions.json';
+import {
+  getStudentLastId,
+  createStudentWithFees,
+  findSectionWithClass,
+} from '../utils/api/db/admissionPage';
 
 class AdmissionPage extends Component {
   constructor(props) {
@@ -26,25 +24,25 @@ class AdmissionPage extends Component {
       email: '',
       phoneNumber: '',
       school: '',
-      address:'',
+      address: '',
       parentName: '',
       parentOccupation: '',
       parentPhoneNumber: '',
       class: '',
       section: '',
       payment: '',
-      notes: ''
+      notes: '',
     },
     sections: [],
-    sectionOptions: []
+    sectionOptions: [],
   };
-  
+
   inputHandler = genericInputHandler;
-  
+
   // * Fetches the last ID in the student table
   async componentDidMount() {
     // get the last id in the db
-    let lastID = await getLastId(sequelize, 'students');
+    let lastID = await getStudentLastId();
     let admissionDataCopy = { ...this.state.admissionData };
     admissionDataCopy.nextStudentID = lastID + 1;
     this.setState({ admissionData: admissionDataCopy });
@@ -52,11 +50,7 @@ class AdmissionPage extends Component {
 
   // * Finds all sections using the class value the user chose
   async classInputHandler(e, { name, value }, stateKey) {
-    let foundSections = await Section.findAll({
-      where: {
-        class: value
-      }
-    });
+    let foundSections = await findSectionWithClass(value);
 
     // mapping the section model returned from the database
     // into a useful prop for select display
@@ -66,13 +60,13 @@ class AdmissionPage extends Component {
         // ???stateKey???
         stateKey: section.id,
         value: section.name,
-        text: section.name
+        text: section.name,
       }));
     }
 
     this.setState({
       sections: foundSections,
-      sectionOptions
+      sectionOptions,
     });
 
     this.inputHandler(e, { name, value }, stateKey);
@@ -85,9 +79,10 @@ class AdmissionPage extends Component {
       (section, index) => section.name === value
     );
     let { defaultAdmissionFees, defaultMonthlyFees, counter } = section;
+    // TODO: this seems like it belongs elsewhere (db maybe)
     let settledFees =
       defaultAdmissionFees + ((8 - counter) * defaultMonthlyFees) / 8;
-      
+
     // ? removing await breaks it???
     await this.inputHandler(
       e,
@@ -96,7 +91,6 @@ class AdmissionPage extends Component {
     );
     this.inputHandler(e, { name, value }, stateKey);
   }
-
 
   // * Creates the student record, adds fees to the student,
   // * updates the value of the last ID.
@@ -107,24 +101,16 @@ class AdmissionPage extends Component {
       (section, index) => section.name === admissionDataCopy.section
     );
 
-    let createdStudent = await Student.create({
+    let createdStudent = await createStudentWithFees({
       ...admissionDataCopy,
-      sectionId: section.dataValues.id
-    });
-
-    // TODO?: should fees be paid on admission???
-    // TODO?: and if so, is it both monthly and admissions fees?
-    // TODO?: if paid immediatly, add to income
-    let createdStudentFees = await StudentFees.create({
-      studentId: createdStudent.dataValues.id,
-      value: this.state.admissionData.payment
+      sectionId: section.dataValues.id,
     });
 
     // get the last id in the db
-    let lastID = await getLastId(sequelize, 'students');
+    let lastID = await getStudentLastId();
     admissionDataCopy.nextStudentID = lastID + 1;
     this.setState({
-      admissionData: admissionDataCopy
+      admissionData: admissionDataCopy,
     });
   }
 
@@ -141,7 +127,7 @@ class AdmissionPage extends Component {
         sectionInputHandler={(e, d) =>
           this.sectionInputHandler(e, d, 'admissionData')
         }
-        onSubmit={e => this.onSubmit(e)}
+        onSubmit={(e) => this.onSubmit(e)}
       />
     );
   }

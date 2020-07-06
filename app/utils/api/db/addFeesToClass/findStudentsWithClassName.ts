@@ -1,3 +1,5 @@
+// * Finds all students given their class name
+
 import { Student } from '../../../database';
 
 export default async function (className) {
