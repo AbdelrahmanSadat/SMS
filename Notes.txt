@@ -52,3 +52,8 @@
 - Refactoring:
   Turn container files into directories that contain a util directory
   that has a bunch of functions for the container's logic.
+
+- Security @ Copy Prevention
+  - MAC Address check in production
+  - ENV Variable check
+  - HDD & CPU serial numbers

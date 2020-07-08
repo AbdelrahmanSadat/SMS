@@ -16,6 +16,17 @@ import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import macCheck from './utils/misc/macCheck';
+import envCheck from './utils/misc/envCheck';
+import CODES from './constants/codes.json';
+
+if (process.env.NODE_ENV == "production") {
+  macCheck(CODES.macAddress).then((macCheckResult) => {
+    if (!macCheckResult || !envCheck("SMS", CODES.SMS))
+      app.exit(1);
+  })
+}
+
 
 export default class AppUpdater {
   constructor() {
@@ -64,13 +75,13 @@ const createWindow = async () => {
     webPreferences:
       (process.env.NODE_ENV === 'development' ||
         process.env.E2E_BUILD === 'true') &&
-      process.env.ERB_SECURE !== 'true'
+        process.env.ERB_SECURE !== 'true'
         ? {
-            nodeIntegration: true,
-          }
+          nodeIntegration: true,
+        }
         : {
-            preload: path.join(__dirname, 'dist/renderer.prod.js'),
-          },
+          preload: path.join(__dirname, 'dist/renderer.prod.js'),
+        },
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
