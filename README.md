@@ -38,6 +38,10 @@ To package apps for the local platform:
 yarn package
 ```
 
+### Production Codes
+- Make sure to set the values of the CODES constants appropriately
+before running the app in production (mac&env).
+
 ## Docs
 
 See our [docs and guides here](https://electron-react-boilerplate.js.org/docs/installation)
