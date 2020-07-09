@@ -31,7 +31,6 @@ class Layout extends Component {
           <Menu.Item fitted>
             <Button
               icon
-              compact
               onClick={_e => this.setSidebarVisibility(true)}
             >
               <Icon name="bars" />
@@ -127,7 +126,7 @@ class Layout extends Component {
           </Menu.Item>
         </Sidebar>
 
-        <Sidebar.Pusher>
+        <Sidebar.Pusher as={Segment}>
           {this.props.children}
         </Sidebar.Pusher>
       </Sidebar.Pushable>
