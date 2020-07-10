@@ -6,7 +6,8 @@ import {
   Icon,
   Menu,
   Segment,
-  Sidebar
+  Sidebar,
+  Container,
 } from 'semantic-ui-react';
 import routes from '../constants/routes.json';
 
@@ -16,18 +17,16 @@ import routes from '../constants/routes.json';
 
 class Layout extends Component {
   state = {
-    sidebarVisibility: false
+    sidebarVisibility: false,
   };
   setSidebarVisibility(visibility: Boolean) {
     this.setState({ sidebarVisibility: visibility });
   }
   render() {
-    console.log("THIS IS THE ROUTE:");
-    console.log(routes.PAYMENT);
     return (
       // <Sidebar.Pushable as={Segment}>
       <Sidebar.Pushable>
-        <Menu borderless>
+        {/* <Menu borderless>
           <Menu.Item fitted>
             <Button
               icon
@@ -36,7 +35,33 @@ class Layout extends Component {
               <Icon name="bars" />
             </Button>
           </Menu.Item>
+        </Menu> */}
+
+        <Menu inverted size="large" style={{
+          borderRadius: "0",
+          marginBottom:"0"
+        }}>
+          <Menu.Item onClick={(_e) => this.setSidebarVisibility(true)}>
+            <Icon name="bars" />
+          </Menu.Item>
+          <Container>
+            <Menu.Item as="a" active>
+              Home
+            </Menu.Item>
+            <Menu.Item as="a">Work</Menu.Item>
+            <Menu.Item as="a">Company</Menu.Item>
+            <Menu.Item as="a">Careers</Menu.Item>
+            <Menu.Item position="right">
+              <Button as="a" inverted>
+                Log in
+              </Button>
+              <Button as="a" inverted primary style={{ marginLeft: '0.5em' }}>
+                Sign Up
+              </Button>
+            </Menu.Item>
+          </Container>
         </Menu>
+
         <Sidebar
           as={Menu}
           // icon="labeled"
@@ -49,85 +74,106 @@ class Layout extends Component {
           width="thin"
           compact
         >
-          <Menu.Item name="home">
-            <Link to={routes.HOME}>Home</Link>
-          </Menu.Item>
+          <Menu.Item name="home" as={Link} to={routes.HOME}></Menu.Item>
           <Menu.Item name="payments">
             Payments
             <Menu.Menu>
-              <Menu.Item name="payment">
-                <Link to={routes.PAYMENT}>Payment</Link>
-              </Menu.Item>
-              <Menu.Item name="paymentGroup">
-                <Link to={routes.ADDPAYMENTGROUP}>Create Payment Group</Link>
-              </Menu.Item>
+              <Menu.Item
+                name="payment"
+                as={Link}
+                to={routes.PAYMENT}
+              ></Menu.Item>
+              <Menu.Item
+                name="paymentGroup"
+                as={Link}
+                to={routes.ADDPAYMENTGROUP}
+              ></Menu.Item>
             </Menu.Menu>
           </Menu.Item>
           <Menu.Item name="addFees">
             Add Fees
             <Menu.Menu>
-              <Menu.Item name="addFeesToClass">
-                <Link to={routes.ADDFEESTOCLASS}>Class</Link>
-              </Menu.Item>
-              <Menu.Item name="addFeesToStudent">
-                <Link to={routes.ADDFEESTOSTUDENT}>Student</Link>
-              </Menu.Item>
-              <Menu.Item name="addFeesToSection">
-                <Link to={routes.ADDFEESTOSECTION}>Section</Link>
-              </Menu.Item>
-              <Menu.Item name="addFeesToSession">
-                <Link to={routes.ADDFEESTOSESSION}>Session</Link>
-              </Menu.Item>
+              <Menu.Item
+                name="addFeesToClass"
+                as={Link}
+                to={routes.ADDFEESTOCLASS}
+              ></Menu.Item>
+              <Menu.Item
+                name="addFeesToStudent"
+                as={Link}
+                to={routes.ADDFEESTOSTUDENT}
+              ></Menu.Item>
+              <Menu.Item
+                name="addFeesToSection"
+                as={Link}
+                to={routes.ADDFEESTOSECTION}
+              ></Menu.Item>
+              <Menu.Item
+                name="addFeesToSession"
+                as={Link}
+                to={routes.ADDFEESTOSESSION}
+              ></Menu.Item>
             </Menu.Menu>
           </Menu.Item>
-          <Menu.Item name="attendance">
-            <Link to={routes.ATTENDANCE}>Attendance</Link>
-          </Menu.Item>
-          <Menu.Item name="admission">
-            <Link to={routes.ADMISSION}>Admission</Link>
-          </Menu.Item>
+          <Menu.Item
+            name="attendance"
+            as={Link}
+            to={routes.ATTENDANCE}
+          ></Menu.Item>
+          <Menu.Item
+            name="admission"
+            as={Link}
+            to={routes.ADMISSION}
+          ></Menu.Item>
           <Menu.Item name="exams">
             Exams
             <Menu.Menu>
-              <Menu.Item name="createExam">
-                <Link to={routes.CREATEEXAM}>Create</Link>
-              </Menu.Item>
-              <Menu.Item name="evaluateExam">
-                <Link to={routes.EVALUATEEXAM}>Evaluate</Link>
-              </Menu.Item>
+              <Menu.Item
+                name="createExam"
+                as={Link}
+                to={routes.CREATEEXAM}
+              ></Menu.Item>
+              <Menu.Item
+                name="evaluateExam"
+                as={Link}
+                to={routes.EVALUATEEXAM}
+              ></Menu.Item>
             </Menu.Menu>
           </Menu.Item>
           <Menu.Item name="students">
             Students
             <Menu.Menu>
-              <Menu.Item name="studentProfile">
-                <Link to={routes.PROFILE}>Profile</Link>
-              </Menu.Item>
+              <Menu.Item
+                name="studentProfile"
+                as={Link}
+                to={routes.PROFILE}
+              ></Menu.Item>
             </Menu.Menu>
-          </Menu.Item>
-          <Menu.Item name="admission">
-            <Link to={routes.ADMISSION}>Admission</Link>
           </Menu.Item>
           <Menu.Item name="sections">
             Sections
             <Menu.Menu>
-              <Menu.Item name="addSection">
-                <Link to={routes.ADDSECTION}>Add Section</Link>
-              </Menu.Item>
+              <Menu.Item
+                name="addSection"
+                as={Link}
+                to={routes.ADDSECTION}
+              ></Menu.Item>
             </Menu.Menu>
           </Menu.Item>
           <Menu.Item name="session">
             Sections
             <Menu.Menu>
-              <Menu.Item name="startSession">
-                <Link to={routes.STARTSESSION}>Start Session</Link>
-              </Menu.Item>
+              <Menu.Item
+                name="startSession"
+                as={Link}
+                to={routes.STARTSESSION}
+              ></Menu.Item>
             </Menu.Menu>
           </Menu.Item>
         </Sidebar>
 
-        <Sidebar.Pusher as={Segment}>
-          {this.props.children}
+        <Sidebar.Pusher>
+          <Segment basic>{this.props.children}</Segment>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );
