@@ -1,27 +1,34 @@
 import React from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Input,
+} from 'formik-semantic-ui';
 
 const AddPaymentGroup = props => (
-  <Form onSubmit={props.onSubmit}>
+  <Form onSubmit={props.onSubmit} initialValues={{
+    paymentName: "",
+    paymentValue: 0
+  }}>
     <Form.Group unstackable widths={2}>
-      <Form.Input
-        value={props.paymentGroupData.paymentName}
-        onChange={props.inputHandler}
+      <Input
         name="paymentName"
         label="Payment Name"
-        placeholder="Name"
-        required
+        inputProps={{
+          placeholder: "Name",
+          required: true
+        }}
       />
-      <Form.Input
-        value={props.paymentGroupData.paymentValue}
-        onChange={props.inputHandler}
+      <Input
         name="paymentValue"
         label="Payment Value"
-        placeholder="Value"
-        required
+        inputProps={{
+          placeholder: "Value",
+          required: true
+        }}
       />
     </Form.Group>
-    <Button type="submit">Submit</Button>
+    <Button.Submit>Submit</Button.Submit>
   </Form>
 );
 
