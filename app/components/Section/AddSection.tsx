@@ -1,47 +1,52 @@
 import React from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import {
+  Button,
+  Dropdown,
+  Form,
+  Input
+} from 'formik-semantic-ui';
 
-const AddSection = props => (
+const AddSection = (props) => (
   <Form onSubmit={props.onSubmit}>
     <Form.Group unstackable widths={2}>
-      <Form.Select
-        required
-        fluid
+      <Dropdown
         label="Class"
-        options={props.classes}
-        placeholder="Class"
-        onChange={props.inputHandler}
-        value={props.sectionData.class}
         name="class"
+        inputProps={{
+          required: true,
+          placeholder: '1st',
+          fluid: true,
+        }}
+        options={props.classes}
       />
-      <Form.Input
+      <Input
         label="Section Name"
-        placeholder="A-1"
-        required
-        onChange={props.inputHandler}
-        value={props.sectionData.sectionName}
         name="sectionName"
+        inputProps={{
+          required: true,
+          placeholder: 'A-1',
+        }}
       />
     </Form.Group>
     <Form.Group unstackable widths={2}>
-      <Form.Input
+      <Input
         label="Monthly Fees"
-        placeholder="EGP"
-        required
         name="monthlyFees"
-        value={props.sectionData.monthlyFees}
-        onChange={props.inputHandler}
+        inputProps={{
+          placeholder: 'EGP',
+          required: true,
+        }}
       />
-      <Form.Input
+      <Input
         label="Admission Fees"
-        placeholder="EGP"
-        required
         name="admissionFees"
-        value={props.sectionData.admissionFees}
-        onChange={props.inputHandler}
+        inputProps={{
+          placeholder: 'EGP',
+          required: true,
+        }}
       />
     </Form.Group>
-    <Button type="submit">Submit</Button>
+    <Button.Submit>Submit</Button.Submit>
   </Form>
 );
 

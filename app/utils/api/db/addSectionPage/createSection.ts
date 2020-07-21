@@ -1,11 +1,11 @@
 import { Section } from '../../../database';
 
-export default async function (name, className, defaultAdmissionFees, defaultMonthlyFees ) {
+export default async function (values) {
     let createdSection = await Section.create({
-        name,
-        class: className,
-        defaultAdmissionFees,
-        defaultMonthlyFees
+        name: values.sectionName,
+        class: values.class,
+        defaultMonthlyFees: values.monthlyFees,
+        defaultAdmissionFees: values.admissionFees
     });
     return createdSection;
 }
