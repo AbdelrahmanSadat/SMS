@@ -8,7 +8,7 @@ import {
 const AddPaymentGroup = props => (
   <Form onSubmit={props.onSubmit} initialValues={{
     paymentName: "",
-    paymentValue: 0
+    paymentValue: ''
   }}>
     <Form.Group unstackable widths={2}>
       <Input

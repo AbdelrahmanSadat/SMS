@@ -1,47 +1,55 @@
 import React from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Input } from 'formik-semantic-ui';
 
-const CreateExam = props => (
-  <Form onSubmit={props.submitHandler}>
+const CreateExam = (props) => (
+  <Form
+    onSubmit={props.onSubmit}
+    initialValues={{
+      maximum: '',
+      minimum: '',
+      name: '',
+      date: '',
+    }}
+  >
     <Form.Group unstackable widths={2}>
-      <Form.Input
+      <Input
         label="Maximum"
-        placeholder="100"
-        required
         name="maximum"
-        type="number"
-        value={props.examFormData.maximum}
-        onChange={props.inputHandler}
+        inputProps={{
+          placeholder: '100',
+          required: true,
+          type: 'number',
+        }}
       />
-      <Form.Input
+      <Input
         label="Minimum"
-        placeholder="50"
-        required
         name="minimum"
-        type="number"
-        value={props.examFormData.minimum}
-        onChange={props.inputHandler}
+        inputProps={{
+          placeholder: '50',
+          required: true,
+          type: 'number',
+        }}
       />
     </Form.Group>
     <Form.Group unstackable widths={2}>
-      <Form.Input
+      <Input
         label="Exam Name"
-        placeholder="Feb Exam"
-        required
         name="name"
-        value={props.examFormData.name}
-        onChange={props.inputHandler}
+        inputProps={{
+          placeholder: 'Feb Exam',
+          required: true,
+        }}
       />
-      <Form.Input
-        type="date"
+      <Input
         label="Exam Date"
-        required
         name="date"
-        value={props.examFormData.date}
-        onChange={props.inputHandler}
+        inputProps={{
+          type: 'date',
+          required: true,
+        }}
       />
     </Form.Group>
-    <Button type="submit">Submit</Button>
+    <Button.Submit>Submit</Button.Submit>
   </Form>
 );
 
