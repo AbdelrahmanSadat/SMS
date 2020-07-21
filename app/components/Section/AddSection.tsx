@@ -7,7 +7,12 @@ import {
 } from 'formik-semantic-ui';
 
 const AddSection = (props) => (
-  <Form onSubmit={props.onSubmit}>
+  <Form onSubmit={props.onSubmit} initialValues={{
+    class: "",
+    sectionName:"",
+    monthlyFees:"",
+    admissionFees:""
+  }}>
     <Form.Group unstackable widths={2}>
       <Dropdown
         label="Class"
